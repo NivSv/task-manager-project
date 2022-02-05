@@ -1,6 +1,4 @@
-﻿using TaskManagerBackend.Models;
-
-namespace TaskManagerBackend.BL
+﻿namespace TaskManagerBackend.BL
 {
     public interface ITaskBL
     {

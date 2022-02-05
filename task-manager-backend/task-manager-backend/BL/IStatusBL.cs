@@ -1,8 +1,8 @@
 ﻿using TaskManagerBackend.Models;
 
-namespace TaskManagerBackend.DAL
+namespace TaskManagerBackend.BL
 {
-    public interface IStatusDAL
+    public interface IStatusBL
     {
         void Create(StatusClientInfo status);
         void Delete(int statusID);
