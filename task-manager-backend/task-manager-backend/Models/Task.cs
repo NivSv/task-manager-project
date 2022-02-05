@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Oversight_Project.Models
+namespace TaskManagerBackend.Models
 {
     public partial class Task
     {

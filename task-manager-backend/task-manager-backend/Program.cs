@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
-using Oversight_Project.BL;
-using Oversight_Project.DAL;
+using TaskManagerBackend.BL;
+using TaskManagerBackend.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +11,8 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 };
 
+builder.Services.AddScoped<ITaskDAL, TaskDAL>();
+builder.Services.AddScoped<ITaskBL, TaskBL>();
 builder.Services.AddScoped<IUserDAL, UserDAL>();
 builder.Services.AddScoped<IUserBL, UserBL>();
 

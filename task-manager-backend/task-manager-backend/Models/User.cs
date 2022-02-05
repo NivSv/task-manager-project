@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Oversight_Project.Models
+namespace TaskManagerBackend.Models
 {
     public partial class User
     {

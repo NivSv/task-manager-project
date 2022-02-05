@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Oversight_Project.Models
+namespace TaskManagerBackend.Models
 {
     public partial class TaskManagerContext : DbContext
     {

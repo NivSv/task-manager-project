@@ -1,7 +1,7 @@
-﻿using Oversight_Project.Models;
-using Oversight_Project.Utilities;
+﻿using TaskManagerBackend.Models;
+using TaskManagerBackend.Utilities;
 
-namespace Oversight_Project.DAL
+namespace TaskManagerBackend.DAL
 {
     public class UserDAL : IUserDAL
     {

@@ -1,6 +1,8 @@
-﻿namespace TaskManagerBackend.DAL
+﻿using TaskManagerBackend.Models;
+
+namespace TaskManagerBackend.BL
 {
-    public interface ITaskDAL
+    public interface ITaskBL
     {
         void Create(Models.Task task);
         void Delete(int taskID);

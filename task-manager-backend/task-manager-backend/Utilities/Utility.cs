@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Oversight_Project.Utilities
+namespace TaskManagerBackend.Utilities
 {
     public class Utility
     {

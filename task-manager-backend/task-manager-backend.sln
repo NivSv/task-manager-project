@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "task-manager-backend", "Oversight Project\task-manager-backend.csproj", "{FDD530A1-6475-4FBE-85B5-F799F5D6A8D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "task-manager-backend", "task-manager-backend\task-manager-backend.csproj", "{B794394D-B342-4F13-AB72-F63267DFB002}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FDD530A1-6475-4FBE-85B5-F799F5D6A8D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDD530A1-6475-4FBE-85B5-F799F5D6A8D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDD530A1-6475-4FBE-85B5-F799F5D6A8D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDD530A1-6475-4FBE-85B5-F799F5D6A8D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B794394D-B342-4F13-AB72-F63267DFB002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B794394D-B342-4F13-AB72-F63267DFB002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B794394D-B342-4F13-AB72-F63267DFB002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B794394D-B342-4F13-AB72-F63267DFB002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

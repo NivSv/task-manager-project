@@ -1,6 +1,6 @@
-﻿using Oversight_Project.Models;
+﻿using TaskManagerBackend.Models;
 
-namespace Oversight_Project.DAL
+namespace TaskManagerBackend.DAL
 {
     public class TaskDAL : ITaskDAL
     {
@@ -24,7 +24,19 @@ namespace Oversight_Project.DAL
 
         public void Edit(Models.Task task)
         {
-            throw new NotImplementedException();
+            using var context = new TaskManagerContext();
+            var entity = context.Tasks.FirstOrDefault(item => item.TaskId == task.TaskId);
+            if (entity != null)
+            {
+                entity.TaskTitle = task.TaskTitle;
+                entity.TaskDescription = task.TaskDescription;
+                entity.TaskStatus = task.TaskStatus;
+                entity.TaskPriority = task.TaskPriority;
+                entity.TaskDeadline = task.TaskDeadline;
+                entity.Assignee = task.Assignee;
+                context.Tasks.Update(entity);
+                context.SaveChanges();
+            }
         }
 
         public List<Models.Task> GetAllTasks()
@@ -64,7 +76,11 @@ namespace Oversight_Project.DAL
 
         public List<Models.Task> WithinAWeek()
         {
-
+            using var context = new TaskManagerContext();
+            var tasks = context.Tasks
+            .Where(item => (item.TaskDeadline <= DateTime.Today.AddDays(7) && item.TaskDeadline >= DateTime.Today))
+            .ToList();
+            return tasks;
         }
     }
 }

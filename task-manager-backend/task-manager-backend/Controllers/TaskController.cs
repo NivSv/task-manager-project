@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Oversight_Project;
-using Oversight_Project.Models;
-using Oversight_Project.Utilities;
+using TaskManagerBackend.BL;
+using TaskManagerBackend.Models;
 
 
 namespace WebApplication1.Controllers
@@ -11,20 +9,62 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
-
-        /* Post method to register a new user (using a hash function to store the passwords in the DB). https://en.wikipedia.org/wiki/Hash_function
-         * Parameters: Username and Password.
-         * Return: StatusCode: 200 - if the server succeeded to register the new user, 
-         * 409 - if the username provided is already exist in the DB.
-         * 400 - if the user didn't provide a proper information.
-         */
-        [HttpGet]
-        public ActionResult<string> GetTasks()
+        private readonly ITaskBL _taskBL;
+        public TaskController(ITaskBL taskBL)
         {
-            using var context = new TaskManagerContext();
-            var tasks2 = context.Users.First();
-            var tasks = context.Tasks.ToList();
-            return JsonConvert.SerializeObject(tasks);
+            _taskBL = taskBL;
+        }
+
+        [HttpGet]
+        [Route("GetTasks")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasks()
+        {
+            return _taskBL.GetAllTasks();
+        }
+
+        [HttpGet]
+        [Route("GetTasksWithinAWeek")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksWithinAWeek()
+        {
+            return _taskBL.WithinAWeek();
+        }
+
+        [HttpGet]
+        [Route("DeleteTask")]
+        public ActionResult DeleteTask([FromBody] int taskID)
+        {
+            _taskBL.Delete(taskID);
+            return StatusCode(200);
+        }
+
+        [HttpGet]
+        [Route("GetTasksByStatus")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByStatus([FromBody] int statusID)
+        {
+            return _taskBL.GetTasksByStatus(statusID);
+        }
+
+        [HttpGet]
+        [Route("GetTasksByPriorty")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByPriorty([FromBody] int priorityID)
+        {
+            return _taskBL.GetTasksByPriority(priorityID);
+        }
+
+        [HttpPost]
+        [Route("CreateTask")]
+        public ActionResult CreateTask([FromBody] TaskManagerBackend.Models.Task task)
+        {
+            _taskBL.Create(task);
+            return StatusCode(200);
+        }
+
+        [HttpPut]
+        [Route("EditTask")]
+        public ActionResult EditTask([FromBody] TaskManagerBackend.Models.Task task)
+        {
+            _taskBL.Edit(task);
+            return StatusCode(200);
         }
     }
 }

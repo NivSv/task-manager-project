@@ -1,4 +1,4 @@
-﻿namespace Oversight_Project.Models
+﻿namespace TaskManagerBackend.Models
 {
     public class RegisterInfo
     {

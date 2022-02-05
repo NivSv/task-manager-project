@@ -1,8 +1,8 @@
 ﻿
-using Oversight_Project.DAL;
-using Oversight_Project.Models;
+using TaskManagerBackend.DAL;
+using TaskManagerBackend.Models;
 
-namespace Oversight_Project.BL
+namespace TaskManagerBackend.BL
 {
     public class UserBL : IUserBL
     {

@@ -1,6 +1,6 @@
-﻿using Oversight_Project.Models;
+﻿using TaskManagerBackend.Models;
 
-namespace Oversight_Project.BL
+namespace TaskManagerBackend.BL
 {
     public interface IUserBL
     {
