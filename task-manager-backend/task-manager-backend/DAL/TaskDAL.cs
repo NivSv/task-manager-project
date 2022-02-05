@@ -60,7 +60,7 @@ namespace TaskManagerBackend.DAL
         {
             using var context = new TaskManagerContext();
             var tasks = context.Tasks
-            .Where(item => item.TaskId == priorityID)
+            .Where(item => item.TaskPriority == priorityID)
             .ToList();
             return tasks;
         }
@@ -69,7 +69,7 @@ namespace TaskManagerBackend.DAL
         {
             using var context = new TaskManagerContext();
             var tasks = context.Tasks
-            .Where(item => item.TaskId == statusID)
+            .Where(item => item.TaskStatus == statusID)
             .ToList();
             return tasks;
         }

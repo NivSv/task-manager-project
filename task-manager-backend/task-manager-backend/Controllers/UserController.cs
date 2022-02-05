@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManagerBackend.BL;
+using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
 
 
@@ -16,25 +17,36 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        [Route("Register")]
         public ActionResult<string> Register([FromBody] RegisterInfo user)
         {
-            _userBL.Register(user);
-            return StatusCode(200);
+            try{
+                _userBL.Register(user);
+                return StatusCode(200);
+            }
+            catch (UserAlreadyExistsException e)
+            {
+                 return StatusCode(409, e.Message);
+            }
         }
 
         [HttpGet]
-        [Route("GetUsers")]
-        public ActionResult<List<User>> GetUsers()
+        public ActionResult<List<UserInfo>> GetUsers()
         {
             return _userBL.GetAll();
         }
 
         [HttpGet]
-        [Route("GetUser")]
-        public ActionResult<User> GetUser([FromQuery] string username)
+        [Route("/user/{username}")]
+        public ActionResult<UserInfo> GetUser(string username)
         {
-            return _userBL.GetByUsername(username);
+            try
+            {
+                return _userBL.GetByUsername(username);
+            }
+            catch (UserNotExistsException e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
     }
 }

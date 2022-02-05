@@ -6,8 +6,8 @@ namespace TaskManagerBackend.BL
     {
         string Login(RegisterInfo registerInfo);
         void Register(RegisterInfo registerInfo);
-        List<User> GetAll();
+        List<UserInfo> GetAll();
         User? GetById(int id);
-        User? GetByUsername(string username);
+        UserInfo? GetByUsername(string username);
     }
 }

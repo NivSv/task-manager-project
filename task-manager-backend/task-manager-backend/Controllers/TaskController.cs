@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManagerBackend.BL;
+using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
 
 
@@ -16,7 +17,6 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        [Route("GetTasks")]
         public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasks()
         {
             return _taskBL.GetAllTasks();
@@ -29,8 +29,7 @@ namespace WebApplication1.Controllers
             return _taskBL.WithinAWeek();
         }
 
-        [HttpGet]
-        [Route("DeleteTask")]
+        [HttpDelete]
         public ActionResult DeleteTask([FromBody] int taskID)
         {
             _taskBL.Delete(taskID);
@@ -38,10 +37,17 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        [Route("GetTasksByStatus")]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByStatus([FromBody] int statusID)
+        [Route("/status/{status}")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByStatus(string status)
         {
-            return _taskBL.GetTasksByStatus(statusID);
+            try
+            {
+                return _taskBL.GetTasksByStatus(status);
+            }
+            catch (InvalidStatusException e)
+            {
+                return StatusCode(409, e.Message);
+            }
         }
 
         [HttpGet]
@@ -52,7 +58,6 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        [Route("CreateTask")]
         public ActionResult CreateTask([FromBody] TaskManagerBackend.Models.Task task)
         {
             _taskBL.Create(task);
@@ -60,7 +65,6 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPut]
-        [Route("EditTask")]
         public ActionResult EditTask([FromBody] TaskManagerBackend.Models.Task task)
         {
             _taskBL.Edit(task);

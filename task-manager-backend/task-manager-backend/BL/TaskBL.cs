@@ -1,14 +1,17 @@
 ﻿using TaskManagerBackend.Models;
 using TaskManagerBackend.DAL;
+using TaskManagerBackend.Exceptions;
 
 namespace TaskManagerBackend.BL
 {
     public class TaskBL : ITaskBL
     {
         private readonly ITaskDAL _taskDAL;
-        public TaskBL(ITaskDAL taskDAL)
+        private readonly IStatusDAL _statusDAL;
+        public TaskBL(ITaskDAL taskDAL, IStatusDAL statusDAL)
         {
             _taskDAL = taskDAL;
+            _statusDAL = statusDAL;
         }
         public void Create(Models.Task task)
         {
@@ -40,9 +43,11 @@ namespace TaskManagerBackend.BL
             return _taskDAL.GetTasksByPriority(priorityID);
         }
 
-        public List<Models.Task> GetTasksByStatus(int StatusID)
+        public List<Models.Task> GetTasksByStatus(string statusName)
         {
-            return _taskDAL.GetTasksByStatus(StatusID);
+            var entity = _statusDAL.GetStatuses().Find(status => status.StatusName.ToLower() == statusName.ToLower());
+            if (entity == null) throw new InvalidStatusException("Status "+statusName+" is not exist.");
+            return _taskDAL.GetTasksByStatus(entity.StatusId);
         }
 
         public List<Models.Task> WithinAWeek()

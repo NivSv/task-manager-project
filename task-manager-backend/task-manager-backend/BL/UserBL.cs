@@ -12,9 +12,14 @@ namespace TaskManagerBackend.BL
             _userDAL = userDAL;
         }
 
-        public List<User> GetAll()
+        public List<UserInfo> GetAll()
         {
-            return _userDAL.GetAll();
+            var users = _userDAL.GetAll().Select(x => new UserInfo()
+            {
+                Username = x.Username,
+                UserId = x.UserId,
+            }).ToList();
+            return users;
         }
 
         public User? GetById(int id)
@@ -22,9 +27,15 @@ namespace TaskManagerBackend.BL
             return _userDAL.GetById(id);
         }
 
-        public User? GetByUsername(string username)
+        public UserInfo? GetByUsername(string username)
         {
-            return _userDAL.GetByUsername(username);
+            var olduser = _userDAL.GetByUsername(username);
+            var newuser = new UserInfo()
+            {
+                Username = olduser.Username,
+                UserId = olduser.UserId,
+            };
+            return newuser;
         }
 
         public string Login(RegisterInfo registerInfo)
