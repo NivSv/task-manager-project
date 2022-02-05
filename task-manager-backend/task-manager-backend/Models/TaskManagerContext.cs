@@ -35,7 +35,7 @@ namespace TaskManagerBackend.Models
             {
                 entity.ToTable("Priority");
 
-                entity.Property(e => e.PriorityId).HasColumnName("PriorityID");
+                entity.Property(e => e.PriorityID).HasColumnName("PriorityID");
 
                 entity.Property(e => e.PriorityName).HasMaxLength(16);
             });

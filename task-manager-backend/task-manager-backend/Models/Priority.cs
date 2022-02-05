@@ -11,7 +11,7 @@ namespace TaskManagerBackend.Models
             Tasks = new HashSet<Task>();
         }
 
-        public int PriorityId { get; set; }
+        public int PriorityID { get; set; }
         public string? PriorityName { get; set; }
         [JsonIgnore]
         public virtual ICollection<Task> Tasks { get; set; }

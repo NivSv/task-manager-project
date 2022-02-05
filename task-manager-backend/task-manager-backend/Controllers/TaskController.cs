@@ -23,17 +23,25 @@ namespace TaskManagerBackend.Controllers
         }
 
         [HttpGet]
-        [Route("GetTasksWithinAWeek")]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksWithinAWeek()
+        [Route("deadline/{date}")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByDeadline(string date)
         {
-            return _taskBL.WithinAWeek();
+            return _taskBL.GetTasksByDeadline(date);
         }
 
         [HttpDelete]
-        public ActionResult DeleteTask([FromBody] int taskID)
+        [Route("{taskID}")]
+        public ActionResult DeleteTask(int taskID)
         {
-            _taskBL.Delete(taskID);
-            return StatusCode(200);
+            try
+            {
+                _taskBL.Delete(taskID);
+                return StatusCode(200);
+            }
+            catch (TaskNotExistsException e)
+            {
+                return StatusCode(404,e.Message);
+            }
         }
 
         [HttpGet]
@@ -58,10 +66,21 @@ namespace TaskManagerBackend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTask([FromBody] TaskManagerBackend.Models.Task task)
+        public ActionResult CreateTask([FromBody] TaskCreateInfo task)
         {
-            _taskBL.Create(task);
-            return StatusCode(200);
+            try
+            {
+                _taskBL.Create(task);
+                return StatusCode(200);
+            }
+            catch(UserNotExistsException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+            catch(InvalidPriorityException e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
 
         [HttpPut]

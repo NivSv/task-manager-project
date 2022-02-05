@@ -1,11 +1,13 @@
-﻿namespace TaskManagerBackend.BL
+﻿using TaskManagerBackend.Models;
+
+namespace TaskManagerBackend.BL
 {
     public interface ITaskBL
     {
-        void Create(Models.Task task);
+        void Create(TaskCreateInfo task);
         void Delete(int taskID);
         void Edit(Models.Task task);
-        List<Models.Task> WithinAWeek();
+        List<Models.Task> GetTasksByDeadline(string date);
         List<Models.Task> GetTasksByStatus(string statusName);
         List<Models.Task> GetTasksByPriority(string priorityName);
         List<Models.Task> GetAllTasks();

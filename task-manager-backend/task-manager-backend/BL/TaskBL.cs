@@ -9,15 +9,31 @@ namespace TaskManagerBackend.BL
         private readonly ITaskDAL _taskDAL;
         private readonly IStatusDAL _statusDAL;
         private readonly IPriorityDAL _priorityDAL;
-        public TaskBL(ITaskDAL taskDAL, IStatusDAL statusDAL, IPriorityDAL priorityDAL)
+        private readonly IUserDAL _userDAL;
+        public TaskBL(ITaskDAL taskDAL, IStatusDAL statusDAL, IPriorityDAL priorityDAL, IUserDAL userDAL)
         {
             _taskDAL = taskDAL;
             _statusDAL = statusDAL;
             _priorityDAL = priorityDAL;
+            _userDAL = userDAL;
         }
-        public void Create(Models.Task task)
+        public void Create(TaskCreateInfo task)
         {
-            _taskDAL.Create(task);
+            var priority = _priorityDAL.GetPriorities().Find(status => status.PriorityName.ToLower() == task.TaskPriority.ToLower());
+            if (priority == null) throw new InvalidPriorityException("Priority " + task.TaskPriority + " is not exist.");
+            var user = _userDAL.GetAll().Find(status => status.Username.ToLower() == task.Assignee.ToLower());
+            if (user == null) throw new UserNotExistsException("User " + task.Assignee + " is not exist.");
+            var newtask = new Models.Task()
+            {
+                TaskTitle = task.TaskTitle,
+                TaskDescription = task.TaskDescription,
+                TaskPriority = priority.PriorityID,
+                TaskCreatedDate = DateTime.UtcNow,
+                TaskDeadline = task.TaskDeadline,
+                Assignee = user.UserId,
+                TaskStatus = 1,
+            };
+            _taskDAL.Create(newtask);
         }
 
         public void Delete(int taskID)
@@ -43,8 +59,8 @@ namespace TaskManagerBackend.BL
         public List<Models.Task> GetTasksByPriority(string priorityName)
         {
             var entity = _priorityDAL.GetPriorities().Find(status => status.PriorityName.ToLower() == priorityName.ToLower());
-            if (entity == null) throw new InvalidPriorityException("Status " + priorityName + " is not exist.");
-            return _taskDAL.GetTasksByPriority(entity.PriorityId);
+            if (entity == null) throw new InvalidPriorityException("Priority " + priorityName + " is not exist.");
+            return _taskDAL.GetTasksByPriority(entity.PriorityID);
         }
 
         public List<Models.Task> GetTasksByStatus(string statusName)
@@ -54,9 +70,10 @@ namespace TaskManagerBackend.BL
             return _taskDAL.GetTasksByStatus(entity.StatusId);
         }
 
-        public List<Models.Task> WithinAWeek()
+        public List<Models.Task> GetTasksByDeadline(string date)
         {
-            return _taskDAL.WithinAWeek();
+            var newdate = DateTime.Parse(date);
+            return _taskDAL.GetTasksByDeadline(newdate);
         }
     }
 }

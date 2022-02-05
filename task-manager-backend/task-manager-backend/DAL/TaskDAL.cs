@@ -1,4 +1,5 @@
-﻿using TaskManagerBackend.Models;
+﻿using TaskManagerBackend.Exceptions;
+using TaskManagerBackend.Models;
 
 namespace TaskManagerBackend.DAL
 {
@@ -15,11 +16,9 @@ namespace TaskManagerBackend.DAL
         {
             using var context = new TaskManagerContext();
             var entity = context.Tasks.FirstOrDefault(item => item.TaskId == taskID);
-            if (entity != null)
-            {
-                context.Tasks.Remove(entity);
-                context.SaveChanges();
-            }
+            if (entity == null) throw new TaskNotExistsException("Task with ID "+ taskID+" is not exists.");
+            context.Tasks.Remove(entity);
+            context.SaveChanges();
         }
 
         public void Edit(Models.Task task)
@@ -74,7 +73,7 @@ namespace TaskManagerBackend.DAL
             return tasks;
         }
 
-        public List<Models.Task> WithinAWeek()
+        public List<Models.Task> GetTasksByDeadline(DateTime date)
         {
             using var context = new TaskManagerContext();
             var tasks = context.Tasks
