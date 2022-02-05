@@ -4,7 +4,7 @@ using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
 
 
-namespace WebApplication1.Controllers
+namespace TaskManagerBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -51,10 +51,10 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet]
-        [Route("GetTasksByPriorty")]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByPriorty([FromBody] int priorityID)
+        [Route("/priority/{priority}")]
+        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByPriorty(string priority)
         {
-            return _taskBL.GetTasksByPriority(priorityID);
+            return _taskBL.GetTasksByPriority(priority);
         }
 
         [HttpPost]

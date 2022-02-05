@@ -4,7 +4,7 @@ using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
 
 
-namespace WebApplication1.Controllers
+namespace TaskManagerBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

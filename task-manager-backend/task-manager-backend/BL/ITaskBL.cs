@@ -7,7 +7,7 @@
         void Edit(Models.Task task);
         List<Models.Task> WithinAWeek();
         List<Models.Task> GetTasksByStatus(string statusName);
-        List<Models.Task> GetTasksByPriority(int priorityID);
+        List<Models.Task> GetTasksByPriority(string priorityName);
         List<Models.Task> GetAllTasks();
         List<Models.Task> GetTaskByUserID(int userID);
     }

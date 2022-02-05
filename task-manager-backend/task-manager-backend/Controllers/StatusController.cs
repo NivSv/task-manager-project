@@ -3,7 +3,7 @@ using TaskManagerBackend.BL;
 using TaskManagerBackend.Models;
 
 
-namespace WebApplication1.Controllers
+namespace TaskManagerBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

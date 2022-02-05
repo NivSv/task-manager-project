@@ -11,6 +11,8 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 };
 
+builder.Services.AddScoped<IPriorityDAL, PriorityDAL>();
+builder.Services.AddScoped<IPriorityBL, PriorityBL>();
 builder.Services.AddScoped<IStatusDAL, StatusDAL>();
 builder.Services.AddScoped<IStatusBL, StatusBL>();
 builder.Services.AddScoped<ITaskDAL, TaskDAL>();

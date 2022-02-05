@@ -8,10 +8,12 @@ namespace TaskManagerBackend.BL
     {
         private readonly ITaskDAL _taskDAL;
         private readonly IStatusDAL _statusDAL;
-        public TaskBL(ITaskDAL taskDAL, IStatusDAL statusDAL)
+        private readonly IPriorityDAL _priorityDAL;
+        public TaskBL(ITaskDAL taskDAL, IStatusDAL statusDAL, IPriorityDAL priorityDAL)
         {
             _taskDAL = taskDAL;
             _statusDAL = statusDAL;
+            _priorityDAL = priorityDAL;
         }
         public void Create(Models.Task task)
         {
@@ -38,9 +40,11 @@ namespace TaskManagerBackend.BL
             return _taskDAL.GetTaskByUserID(userID);
         }
 
-        public List<Models.Task> GetTasksByPriority(int priorityID)
+        public List<Models.Task> GetTasksByPriority(string priorityName)
         {
-            return _taskDAL.GetTasksByPriority(priorityID);
+            var entity = _priorityDAL.GetPriorities().Find(status => status.PriorityName.ToLower() == priorityName.ToLower());
+            if (entity == null) throw new InvalidPriorityException("Status " + priorityName + " is not exist.");
+            return _taskDAL.GetTasksByPriority(entity.PriorityId);
         }
 
         public List<Models.Task> GetTasksByStatus(string statusName)
