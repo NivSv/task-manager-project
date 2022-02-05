@@ -17,16 +17,23 @@ namespace TaskManagerBackend.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasks()
+        public ActionResult<List<Models.Task>> GetTasks()
         {
             return _taskBL.GetAllTasks();
         }
 
         [HttpGet]
         [Route("deadline/{date}")]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByDeadline(string date)
+        public ActionResult<List<Models.Task>> GetTasksByDeadline(string date)
         {
-            return _taskBL.GetTasksByDeadline(date);
+            try
+            {
+                return _taskBL.GetTasksByDeadline(date);
+            }
+            catch(InvalidDateException e)
+            {
+                return StatusCode(422, e.Message);
+            }
         }
 
         [HttpDelete]
@@ -46,7 +53,7 @@ namespace TaskManagerBackend.Controllers
 
         [HttpGet]
         [Route("/status/{status}")]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByStatus(string status)
+        public ActionResult<List<Models.Task>> GetTasksByStatus(string status)
         {
             try
             {
@@ -54,19 +61,26 @@ namespace TaskManagerBackend.Controllers
             }
             catch (InvalidStatusException e)
             {
-                return StatusCode(409, e.Message);
+                return StatusCode(422, e.Message);
             }
         }
 
         [HttpGet]
         [Route("/priority/{priority}")]
-        public ActionResult<List<TaskManagerBackend.Models.Task>> GetTasksByPriorty(string priority)
+        public ActionResult<List<Models.Task>> GetTasksByPriorty(string priority)
         {
-            return _taskBL.GetTasksByPriority(priority);
+            try
+            {
+                return _taskBL.GetTasksByPriority(priority);
+            }
+            catch(InvalidPriorityException e)
+            {
+                return StatusCode(422, e.Message);
+            }
         }
 
         [HttpPost]
-        public ActionResult CreateTask([FromBody] TaskCreateInfo task)
+        public ActionResult CreateTask([FromBody] TaskInfo task)
         {
             try
             {
@@ -75,19 +89,43 @@ namespace TaskManagerBackend.Controllers
             }
             catch(UserNotExistsException e)
             {
-                return StatusCode(404, e.Message);
+                return StatusCode(422, e.Message);
             }
             catch(InvalidPriorityException e)
             {
-                return StatusCode(404, e.Message);
+                return StatusCode(422, e.Message);
+            }
+            catch(InvalidStatusException e)
+            {
+                return StatusCode(422, e.Message);
             }
         }
 
         [HttpPut]
-        public ActionResult EditTask([FromBody] TaskManagerBackend.Models.Task task)
+        [Route("{taskid}")]
+        public ActionResult EditTask([FromBody] TaskInfo task,int taskID)
         {
-            _taskBL.Edit(task);
-            return StatusCode(200);
+            try
+            {
+                _taskBL.Edit(task, taskID);
+                return StatusCode(200);
+            }
+            catch (UserNotExistsException e)
+            {
+                return StatusCode(422, e.Message);
+            }
+            catch (InvalidPriorityException e)
+            {
+                return StatusCode(422, e.Message);
+            }
+            catch (InvalidStatusException e)
+            {
+                return StatusCode(422, e.Message);
+            }
+            catch(TaskNotExistsException e)
+            {
+                return StatusCode(404, e.Message);
+            }
         }
     }
 }

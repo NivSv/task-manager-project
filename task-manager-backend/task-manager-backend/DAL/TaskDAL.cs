@@ -25,17 +25,15 @@ namespace TaskManagerBackend.DAL
         {
             using var context = new TaskManagerContext();
             var entity = context.Tasks.FirstOrDefault(item => item.TaskId == task.TaskId);
-            if (entity != null)
-            {
-                entity.TaskTitle = task.TaskTitle;
-                entity.TaskDescription = task.TaskDescription;
-                entity.TaskStatus = task.TaskStatus;
-                entity.TaskPriority = task.TaskPriority;
-                entity.TaskDeadline = task.TaskDeadline;
-                entity.Assignee = task.Assignee;
-                context.Tasks.Update(entity);
-                context.SaveChanges();
-            }
+            if (entity == null) throw new TaskNotExistsException("Task with ID " + task.TaskId + " is not exists.");
+            entity.TaskTitle = task.TaskTitle;
+            entity.TaskDescription = task.TaskDescription;
+            entity.TaskStatus = task.TaskStatus;
+            entity.TaskPriority = task.TaskPriority;
+            entity.TaskDeadline = task.TaskDeadline;
+            entity.Assignee = task.Assignee;
+            context.Tasks.Update(entity);
+            context.SaveChanges();
         }
 
         public List<Models.Task> GetAllTasks()
@@ -75,9 +73,10 @@ namespace TaskManagerBackend.DAL
 
         public List<Models.Task> GetTasksByDeadline(DateTime date)
         {
+            if (date < DateTime.UtcNow) throw new InvalidDateException("The date is earlier than today");
             using var context = new TaskManagerContext();
             var tasks = context.Tasks
-            .Where(item => (item.TaskDeadline <= DateTime.Today.AddDays(7) && item.TaskDeadline >= DateTime.Today))
+            .Where(item => item.TaskDeadline <= date)
             .ToList();
             return tasks;
         }

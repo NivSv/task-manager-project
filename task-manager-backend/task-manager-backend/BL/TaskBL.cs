@@ -17,12 +17,14 @@ namespace TaskManagerBackend.BL
             _priorityDAL = priorityDAL;
             _userDAL = userDAL;
         }
-        public void Create(TaskCreateInfo task)
+        public void Create(TaskInfo task)
         {
-            var priority = _priorityDAL.GetPriorities().Find(status => status.PriorityName.ToLower() == task.TaskPriority.ToLower());
+            var priority = _priorityDAL.GetPriorities().Find(x => x.PriorityName.ToLower() == task.TaskPriority.ToLower());
             if (priority == null) throw new InvalidPriorityException("Priority " + task.TaskPriority + " is not exist.");
-            var user = _userDAL.GetAll().Find(status => status.Username.ToLower() == task.Assignee.ToLower());
+            var user = _userDAL.GetAll().Find(x => x.Username.ToLower() == task.Assignee.ToLower());
             if (user == null) throw new UserNotExistsException("User " + task.Assignee + " is not exist.");
+            var status = _statusDAL.GetStatuses().Find(x => x.StatusName.ToLower() == task.TaskStatus.ToLower());
+            if (status == null) throw new InvalidStatusException("Status " + task.TaskStatus + " is not exist.");
             var newtask = new Models.Task()
             {
                 TaskTitle = task.TaskTitle,
@@ -31,7 +33,7 @@ namespace TaskManagerBackend.BL
                 TaskCreatedDate = DateTime.UtcNow,
                 TaskDeadline = task.TaskDeadline,
                 Assignee = user.UserId,
-                TaskStatus = 1,
+                TaskStatus = status.StatusId,
             };
             _taskDAL.Create(newtask);
         }
@@ -41,9 +43,26 @@ namespace TaskManagerBackend.BL
             _taskDAL.Delete(taskID);
         }
 
-        public void Edit(Models.Task task)
+        public void Edit(TaskInfo task,int taskID)
         {
-            _taskDAL.Edit(task);
+            var priority = _priorityDAL.GetPriorities().Find(x => x.PriorityName.ToLower() == task.TaskPriority.ToLower());
+            if (priority == null) throw new InvalidPriorityException("Priority " + task.TaskPriority + " is not exist.");
+            var user = _userDAL.GetAll().Find(x => x.Username.ToLower() == task.Assignee.ToLower());
+            if (user == null) throw new UserNotExistsException("User " + task.Assignee + " is not exist.");
+            var status = _statusDAL.GetStatuses().Find(x => x.StatusName.ToLower() == task.TaskStatus.ToLower());
+            if (status == null) throw new InvalidStatusException("Status " + task.TaskStatus + " is not exist.");
+            var newtask = new Models.Task()
+            {
+                TaskId = taskID,
+                TaskTitle = task.TaskTitle,
+                TaskDescription = task.TaskDescription,
+                TaskPriority = priority.PriorityID,
+                TaskCreatedDate = DateTime.UtcNow,
+                TaskDeadline = task.TaskDeadline,
+                Assignee = user.UserId,
+                TaskStatus = status.StatusId,
+            };
+            _taskDAL.Edit(newtask);
         }
 
         public List<Models.Task> GetAllTasks()
@@ -72,8 +91,10 @@ namespace TaskManagerBackend.BL
 
         public List<Models.Task> GetTasksByDeadline(string date)
         {
-            var newdate = DateTime.Parse(date);
-            return _taskDAL.GetTasksByDeadline(newdate);
+            DateTime myDate;
+            if (!DateTime.TryParse(date, out myDate)) throw new InvalidDateException("the date is invalid");
+            myDate = DateTime.Parse(date);
+            return _taskDAL.GetTasksByDeadline(myDate);
         }
     }
 }
