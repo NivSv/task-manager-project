@@ -9,11 +9,11 @@ namespace TaskManagerBackend.BL
     public class UserBL : IUserBL
     {
         private readonly IUserDAL _userDAL;
-        private readonly IAccessKeyValidator _accessKeyValidator;
-        public UserBL(IUserDAL userDAL, IAccessKeyValidator accessKeyValidator)
+        private readonly IAccessKeyManager _accessKeyManager;
+        public UserBL(IUserDAL userDAL, IAccessKeyManager accessKeyValidator)
         {
             _userDAL = userDAL;
-            _accessKeyValidator = accessKeyValidator;
+            _accessKeyManager = accessKeyValidator;
         }
 
         public List<UserInfo> GetAll()
@@ -45,9 +45,9 @@ namespace TaskManagerBackend.BL
         public string Login(RegisterInfo registerInfo)
         {
             if(Utility.ComputeSha256Hash(registerInfo.Password) != _userDAL.GetPasswordHash(registerInfo.Username)) throw new InvalidPasswordException("User/Password are wrong.");
-            var accessKey = _accessKeyValidator.GetAccessKey(_userDAL.GetByUsername(registerInfo.Username).UserId);
+            var accessKey = _accessKeyManager.GetAccessKey(_userDAL.GetByUsername(registerInfo.Username).UserId);
             if(accessKey != null) return accessKey;
-            return _accessKeyValidator.CreateAccessKey(_userDAL.GetByUsername(registerInfo.Username).UserId);
+            return _accessKeyManager.CreateAccessKey(_userDAL.GetByUsername(registerInfo.Username).UserId);
         }
 
         public void Register(RegisterInfo registerInfo)

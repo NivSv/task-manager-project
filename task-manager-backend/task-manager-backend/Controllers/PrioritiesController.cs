@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TaskManagerBackend.BL;
 using TaskManagerBackend.Models;
 
@@ -10,15 +11,19 @@ namespace TaskManagerBackend.Controllers
     public class PrioritiesController : ControllerBase
     {
         private readonly IPriorityBL _priorityBL;
-        public PrioritiesController(IPriorityBL priorityBL)
+        private readonly IUserAuthorizer _userAuthorizer;
+        public PrioritiesController(IPriorityBL priorityBL, IUserAuthorizer userAuthorizer)
         {
             _priorityBL = priorityBL;
+            _userAuthorizer = userAuthorizer;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Priority>> GetPriorities()
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Priority>> GetPriorities([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             return _priorityBL.GetPriorities();
         }
     }

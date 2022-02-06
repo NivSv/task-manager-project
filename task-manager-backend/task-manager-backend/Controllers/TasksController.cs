@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TaskManagerBackend.BL;
 using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
@@ -11,15 +12,19 @@ namespace TaskManagerBackend.Controllers
     public class TasksController : ControllerBase
     {
         private readonly ITaskBL _taskBL;
-        public TasksController(ITaskBL taskBL)
+        private readonly IUserAuthorizer _userAuthorizer;
+        public TasksController(ITaskBL taskBL, IUserAuthorizer userAuthorizer)
         {
             _taskBL = taskBL;
+            _userAuthorizer = userAuthorizer;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Models.Task>> GetTasks()
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Models.Task>> GetTasks([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             return _taskBL.GetAllTasks();
         }
 
@@ -27,8 +32,10 @@ namespace TaskManagerBackend.Controllers
         [Route("deadline/{date}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<List<Models.Task>> GetTasksByDeadline(string date)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Models.Task>> GetTasksByDeadline([FromHeader, Required] string accessKey, [FromHeader, Required] string username, string date)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 return _taskBL.GetTasksByDeadline(date);
@@ -49,8 +56,10 @@ namespace TaskManagerBackend.Controllers
         [Route("{taskID}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult DeleteTask(int taskID)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult DeleteTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username, int taskID)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 _taskBL.Delete(taskID);
@@ -66,8 +75,10 @@ namespace TaskManagerBackend.Controllers
         [Route("status/{status}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<List<Models.Task>> GetTasksByStatus(string status)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Models.Task>> GetTasksByStatus([FromHeader, Required] string accessKey, [FromHeader, Required] string username,string status)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 return _taskBL.GetTasksByStatus(status);
@@ -82,8 +93,10 @@ namespace TaskManagerBackend.Controllers
         [Route("{taskid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Models.Task> GetTaskByID(int taskid)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<Models.Task> GetTaskByID([FromHeader, Required] string accessKey, [FromHeader, Required] string username,int taskid)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 return _taskBL.GetTaskByID(taskid);
@@ -98,8 +111,10 @@ namespace TaskManagerBackend.Controllers
         [Route("priority/{priority}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult<List<Models.Task>> GetTasksByPriorty(string priority)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Models.Task>> GetTasksByPriorty([FromHeader, Required] string accessKey, [FromHeader, Required] string username,string priority)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 return _taskBL.GetTasksByPriority(priority);
@@ -113,8 +128,10 @@ namespace TaskManagerBackend.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public ActionResult CreateTask([FromBody] TaskInfo task)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult CreateTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username,[FromBody] TaskInfo task)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 _taskBL.Create(task);
@@ -139,8 +156,10 @@ namespace TaskManagerBackend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult EditTask([FromBody] TaskInfo task,int taskID)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult EditTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username,[FromBody] TaskInfo task,int taskID)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 _taskBL.Edit(task, taskID);

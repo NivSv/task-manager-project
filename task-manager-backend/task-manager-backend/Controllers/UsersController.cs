@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using TaskManagerBackend.BL;
 using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
@@ -11,9 +12,11 @@ namespace TaskManagerBackend.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserBL _userBL;
-        public UsersController(IUserBL userBL)
+        private readonly IUserAuthorizer _userAuthorizer;
+        public UsersController(IUserBL userBL,IUserAuthorizer userAuthorizer)
         {
             _userBL = userBL;
+            _userAuthorizer = userAuthorizer;
         }
 
         [HttpPost]
@@ -55,8 +58,10 @@ namespace TaskManagerBackend.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<UserInfo>> GetUsers()
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<UserInfo>> GetUsers([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             return _userBL.GetAll();
         }
 
@@ -64,8 +69,10 @@ namespace TaskManagerBackend.Controllers
         [Route("{username}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<UserInfo> GetUser(string username)
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<UserInfo> GetUser([FromHeader, Required] string accessKey,string username)
         {
+            if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
             {
                 return _userBL.GetByUsername(username);

@@ -1,25 +1,33 @@
 ﻿using TaskManagerBackend.Models;
 using System.Timers;
+using TaskManagerBackend.Exceptions;
 
 namespace TaskManagerBackend.BL
 {
-    public class AccessKeyValidator : IAccessKeyValidator
+    public class AccessKeyManager : IAccessKeyManager
     {
         private Dictionary<int, AccessKeyInfo> _accessKeyDict;
         private Queue<AccessKeyInfo> _accessKeyQueue;
         private System.Timers.Timer _timer;
         private int _accessKeyAge;
-        public AccessKeyValidator(int accessKeyAge,int validatorInterval)
+        private int _validatorInterval;
+        public AccessKeyManager()
         {
+            Configure();
             _timer = new System.Timers.Timer();
             _accessKeyDict = new Dictionary<int, AccessKeyInfo>();
             _accessKeyQueue = new Queue<AccessKeyInfo>();
 
-            _timer.Interval = validatorInterval;
+            _timer.Interval = _validatorInterval;
             _timer.Elapsed += CheckExpiry;
             _timer.AutoReset = true;
             _timer.Enabled = true;
-            _accessKeyAge = accessKeyAge;
+        }
+
+        public void Configure()
+        {
+            this._accessKeyAge = 86400000;
+            this._validatorInterval = 5000;
         }
 
         public string CreateAccessKey(int userID)
@@ -34,11 +42,6 @@ namespace TaskManagerBackend.BL
             _accessKeyDict.Add(userID, keyinfo);
             _accessKeyQueue.Enqueue(keyinfo);
             return newAccessKey;
-        }
-
-        public bool CheckAccessKey(int userID, string accessKey)
-        {
-            return _accessKeyDict[userID].AccessKey == accessKey;
         }
 
         public string? GetAccessKey(int userID)
