@@ -14,14 +14,15 @@ JsonConvert.DefaultSettings = () => new JsonSerializerSettings
     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 };
 
-builder.Services.AddScoped<IPriorityDAL, PriorityDAL>();
-builder.Services.AddScoped<IPriorityBL, PriorityBL>();
-builder.Services.AddScoped<IStatusDAL, StatusDAL>();
-builder.Services.AddScoped<IStatusBL, StatusBL>();
-builder.Services.AddScoped<ITaskDAL, TaskDAL>();
-builder.Services.AddScoped<ITaskBL, TaskBL>();
-builder.Services.AddScoped<IUserDAL, UserDAL>();
-builder.Services.AddScoped<IUserBL, UserBL>();
+builder.Services.AddSingleton<IAccessKeyValidator>(new AccessKeyValidator(86400000, 5000));
+builder.Services.AddSingleton<IPriorityDAL, PriorityDAL>();
+builder.Services.AddSingleton<IPriorityBL, PriorityBL>();
+builder.Services.AddSingleton<IStatusDAL, StatusDAL>();
+builder.Services.AddSingleton<IStatusBL, StatusBL>();
+builder.Services.AddSingleton<ITaskDAL, TaskDAL>();
+builder.Services.AddSingleton<ITaskBL, TaskBL>();
+builder.Services.AddSingleton<IUserDAL, UserDAL>();
+builder.Services.AddSingleton<IUserBL, UserBL>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls=true);
 builder.Services.AddControllers().AddNewtonsoftJson();

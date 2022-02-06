@@ -16,17 +16,17 @@ namespace TaskManagerBackend.Controllers
             _taskBL = taskBL;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Models.Task>> GetTasks()
         {
             return _taskBL.GetAllTasks();
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [HttpGet]
         [Route("deadline/{date}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<List<Models.Task>> GetTasksByDeadline(string date)
         {
             try
@@ -62,10 +62,10 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [HttpGet]
         [Route("status/{status}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<List<Models.Task>> GetTasksByStatus(string status)
         {
             try
@@ -78,10 +78,10 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("{taskid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Models.Task> GetTaskByID(int taskid)
         {
             try
@@ -94,10 +94,10 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [HttpGet]
         [Route("priority/{priority}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public ActionResult<List<Models.Task>> GetTasksByPriorty(string priority)
         {
             try
@@ -110,9 +110,9 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        [HttpPost]
         public ActionResult CreateTask([FromBody] TaskInfo task)
         {
             try
@@ -134,11 +134,11 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("{taskid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpPut]
-        [Route("{taskid}")]
         public ActionResult EditTask([FromBody] TaskInfo task,int taskID)
         {
             try

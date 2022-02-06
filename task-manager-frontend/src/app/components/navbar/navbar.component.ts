@@ -6,14 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  hamActive:boolean;
 
   constructor() { 
+    this.hamActive=false;
   }
 
   ngOnInit(): void {
   }
-
-  hamActive:boolean;
 
   hamClick()
   {

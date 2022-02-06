@@ -12,8 +12,8 @@ namespace TaskManagerBackend.Models
         }
 
         public int UserId { get; set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         [JsonIgnore]
         public virtual ICollection<Task> Tasks { get; set; }
     }

@@ -15,8 +15,8 @@ namespace TaskManagerBackend.Controllers
             _priorityBL = priorityBL;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Priority>> GetPriorities()
         {
             return _priorityBL.GetPriorities();

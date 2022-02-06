@@ -43,5 +43,13 @@ namespace TaskManagerBackend.DAL
             context.Users.Add(user);
             context.SaveChanges();
         }
+
+        public string GetPasswordHash(string username)
+        {
+            using var context = new TaskManagerContext();
+            var user = context.Users.FirstOrDefault(item => item.Username == username);
+            if (user == null) throw new UserNotExistsException("User/Password are wrong.");
+            return user.Password;
+        }
     }
 }

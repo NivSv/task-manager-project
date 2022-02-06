@@ -1,15 +1,19 @@
 ﻿
 using TaskManagerBackend.DAL;
+using TaskManagerBackend.Exceptions;
 using TaskManagerBackend.Models;
+using TaskManagerBackend.Utilities;
 
 namespace TaskManagerBackend.BL
 {
     public class UserBL : IUserBL
     {
         private readonly IUserDAL _userDAL;
-        public UserBL(IUserDAL userDAL)
+        private readonly IAccessKeyValidator _accessKeyValidator;
+        public UserBL(IUserDAL userDAL, IAccessKeyValidator accessKeyValidator)
         {
             _userDAL = userDAL;
+            _accessKeyValidator = accessKeyValidator;
         }
 
         public List<UserInfo> GetAll()
@@ -40,7 +44,10 @@ namespace TaskManagerBackend.BL
 
         public string Login(RegisterInfo registerInfo)
         {
-            throw new NotImplementedException();
+            if(Utility.ComputeSha256Hash(registerInfo.Password) != _userDAL.GetPasswordHash(registerInfo.Username)) throw new InvalidPasswordException("User/Password are wrong.");
+            var accessKey = _accessKeyValidator.GetAccessKey(_userDAL.GetByUsername(registerInfo.Username).UserId);
+            if(accessKey != null) return accessKey;
+            return _accessKeyValidator.CreateAccessKey(_userDAL.GetByUsername(registerInfo.Username).UserId);
         }
 
         public void Register(RegisterInfo registerInfo)

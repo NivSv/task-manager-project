@@ -15,8 +15,8 @@ namespace TaskManagerBackend.Controllers
             _statusBL = statusBL;
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Status>> GetStatuses()
         {
             return _statusBL.GetStatuses();
