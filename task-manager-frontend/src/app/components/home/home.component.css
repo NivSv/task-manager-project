@@ -1,0 +1,30 @@
+.home{
+    padding-top:  100px; 
+}
+
+.buttonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 880px){
+    #no-more-tables tbody, #no-more-tables tr, #no-more-tables td{
+        display: block;
+    }
+    #no-more-tables thead tr{
+        position: absolute;
+        top:-99999px;
+    }
+    #no-more-tables td{
+        position: relative;
+        padding-left: 50%;
+    }
+    #no-more-tables td:before{
+        content: attr(data-title);
+        position: absolute;
+        left: 6px;
+    }
+}
