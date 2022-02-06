@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+    --navbar-primary: #8c38ff;
+    --navbar-light: #EEEEEE;
+    --navbar-dark: #212121;
+}
