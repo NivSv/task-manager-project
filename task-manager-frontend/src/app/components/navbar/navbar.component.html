@@ -1,7 +1,7 @@
 <nav class="myNav">
     <div class="container">
         <h1>Task Manager</h1>
-        <div class="menu">
+        <div [ngClass]="{'is-active': hamActive}" class="menu" >
             <a href="#123" class="is-active">Home</a>
             <a href='#home'>Login</a>
             <a href="#123">Sign up</a>

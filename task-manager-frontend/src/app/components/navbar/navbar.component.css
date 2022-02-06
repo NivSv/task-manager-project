@@ -33,7 +33,7 @@ h1{
 }
 
 .hamburger{
-    display:block;
+    display:none;
     position: relative;
     z-index:1;
     user-select: none;
@@ -81,7 +81,7 @@ h1{
 }
 
 .menu{
-    display: none;
+    display: flex;
     flex: 1 1 0%;
     justify-content: flex-end;
     margin: 0 -16;
@@ -105,11 +105,24 @@ h1{
     background-color: var(--navbar-primary); 
 }
 
-@media (min-width: 768px){
+@media (max-width: 768px){
     .hamburger{
-        display:none;
+        display:block;
     }
     .menu {
         display: flex;
+        flex-direction: column;
+        position: fixed;
+        background-color: var(--navbar-dark);
+        inset: 0 0 0 60%;
+        justify-content: center;
+        gap: 10px;
+
+        transform: translateX(100%);
+        transition: transform 350ms;
+    }
+
+    .menu.is-active{
+        transform: translateX(0%);
     }
 }
