@@ -10,16 +10,6 @@ namespace TaskManagerBackend.BL
         {
             _statusDAL = statusDAL;
         }
-        public void Create(StatusClientInfo status)
-        {
-            _statusDAL.Create(status);
-        }
-
-        public void Delete(int statusID)
-        {
-            _statusDAL.Delete(statusID);
-        }
-
         public List<Status> GetStatuses()
         {
             return _statusDAL.GetStatuses();

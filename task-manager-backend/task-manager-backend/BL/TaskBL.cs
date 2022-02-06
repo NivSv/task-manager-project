@@ -96,5 +96,10 @@ namespace TaskManagerBackend.BL
             myDate = DateTime.Parse(date);
             return _taskDAL.GetTasksByDeadline(myDate);
         }
+
+        public Models.Task GetTaskByID(int taskID)
+        {
+            return _taskDAL.GetTaskByID(taskID);
+        }
     }
 }

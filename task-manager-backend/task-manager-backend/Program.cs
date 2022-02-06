@@ -1,6 +1,9 @@
 using Newtonsoft.Json;
 using TaskManagerBackend.BL;
 using TaskManagerBackend.DAL;
+using System;
+using System.Reflection;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +24,12 @@ builder.Services.AddScoped<IUserDAL, UserDAL>();
 builder.Services.AddScoped<IUserBL, UserBL>();
 
 builder.Services.AddRouting(options => options.LowercaseUrls=true);
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 builder.Services.AddCors(options =>
 {

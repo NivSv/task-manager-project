@@ -10,5 +10,6 @@
         List<Models.Task> GetTasksByPriority(int priorityID);
         List<Models.Task> GetAllTasks();
         List<Models.Task> GetTaskByUserID(int userID);
+        Models.Task GetTaskByID(int taskID);
     }
 }

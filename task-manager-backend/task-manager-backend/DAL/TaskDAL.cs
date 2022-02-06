@@ -80,5 +80,13 @@ namespace TaskManagerBackend.DAL
             .ToList();
             return tasks;
         }
+
+        public Models.Task GetTaskByID(int taskID)
+        {
+            using var context = new TaskManagerContext();
+            var task = context.Tasks.FirstOrDefault(item => item.TaskId == taskID);
+            if (task == null) throw new TaskNotExistsException("Task with the id " + taskID + " is not exists.");
+            return task;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace TaskManagerBackend.BL
         List<Models.Task> GetTasksByPriority(string priorityName);
         List<Models.Task> GetAllTasks();
         List<Models.Task> GetTaskByUserID(int userID);
+        Models.Task GetTaskByID(int taskID);
     }
 }

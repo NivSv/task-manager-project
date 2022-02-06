@@ -8,20 +8,23 @@ namespace TaskManagerBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TaskController : ControllerBase
+    public class TasksController : ControllerBase
     {
         private readonly ITaskBL _taskBL;
-        public TaskController(ITaskBL taskBL)
+        public TasksController(ITaskBL taskBL)
         {
             _taskBL = taskBL;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         public ActionResult<List<Models.Task>> GetTasks()
         {
             return _taskBL.GetAllTasks();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [HttpGet]
         [Route("deadline/{date}")]
         public ActionResult<List<Models.Task>> GetTasksByDeadline(string date)
@@ -36,8 +39,16 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes a specific TodoItem.
+        /// </summary>
+        ///<returns></returns>
+        ///<response code="200">If the task got deleted</response>
+        ///<response code="404">If the task is not exist.</response>
         [HttpDelete]
         [Route("{taskID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult DeleteTask(int taskID)
         {
             try
@@ -51,8 +62,10 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [HttpGet]
-        [Route("/status/{status}")]
+        [Route("status/{status}")]
         public ActionResult<List<Models.Task>> GetTasksByStatus(string status)
         {
             try
@@ -65,8 +78,26 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
-        [Route("/priority/{priority}")]
+        [Route("{taskid}")]
+        public ActionResult<Models.Task> GetTaskByID(int taskid)
+        {
+            try
+            {
+                return _taskBL.GetTaskByID(taskid);
+            }
+            catch (TaskNotExistsException e)
+            {
+                return StatusCode(404, e.Message);
+            }
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [HttpGet]
+        [Route("priority/{priority}")]
         public ActionResult<List<Models.Task>> GetTasksByPriorty(string priority)
         {
             try
@@ -79,6 +110,8 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [HttpPost]
         public ActionResult CreateTask([FromBody] TaskInfo task)
         {
@@ -101,6 +134,9 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut]
         [Route("{taskid}")]
         public ActionResult EditTask([FromBody] TaskInfo task,int taskID)

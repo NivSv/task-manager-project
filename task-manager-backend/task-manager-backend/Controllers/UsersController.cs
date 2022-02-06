@@ -8,14 +8,16 @@ namespace TaskManagerBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserBL _userBL;
-        public UserController(IUserBL userBL)
+        public UsersController(IUserBL userBL)
         {
             _userBL = userBL;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost]
         public ActionResult<string> Register([FromBody] RegisterInfo user)
         {
@@ -29,12 +31,15 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         public ActionResult<List<UserInfo>> GetUsers()
         {
             return _userBL.GetAll();
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("/user/{username}")]
         public ActionResult<UserInfo> GetUser(string username)
