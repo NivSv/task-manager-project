@@ -58,11 +58,34 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Adding a task</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="addTaskTitle" placeholder="Title">
+                <label for="floatingInput">Title</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="height: 150px;"></textarea>
+                <label for="floatingInput">Disc</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select">
+                    <option value="1">Low</option>
+                    <option value="2">Medium</option>
+                    <option value="3">High</option>
+                </select>
+                <label for="floatingInput">Task Priority</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
+                <label for="floatingInput">Deadline</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input [(ngModel)]="selected" [typeahead]="users" [isAnimated]="true" class="form-control">
+                <label for="floatingInput">Assignee User</label>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
