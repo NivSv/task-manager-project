@@ -3,6 +3,9 @@ import {User, usersStore} from 'src/app/store/users.store';
 import {Task, tasksStore} from 'src/app/store/tasks.store';
 import {getTasks} from 'src/app/store/tasks.actions';
 import * as moment from 'moment';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
+import * as apiTasks from 'src/api/api-tasks';
 
 export interface Filter
 {
@@ -28,7 +31,7 @@ export class HomeComponent implements OnInit {
   filterBy:Filter;
 
 
-  constructor() { 
+  constructor(private cookieService: CookieService, public router: Router) { 
     this.filterBy = {key:"taskTitle",data:""};
     this.usernames = [];
     this.tasks=[];
@@ -71,6 +74,13 @@ export class HomeComponent implements OnInit {
     var endDate = moment(date.endDate).format("yyyy-MM-DD");
     this.tasks = getTasks().filter(task => startDate <= moment(task.taskCreatedDate).format("yyyy-MM-DD") && moment(task.taskCreatedDate).format("yyyy-MM-DD") <= endDate);
     console.log(startDate>endDate);
+  }
+
+  DeleteTask(taskID:number){
+    apiTasks.DeleteTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),taskID).subscribe({
+      error: (e) => console.log(e),
+    })
+    window.location.reload();
   }
 
   ngOnInit(): void {

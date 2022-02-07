@@ -5,7 +5,7 @@ import {
 } from '@ngneat/elf-persist-state';
 
 export interface Task {
-	  id:number, taskTitle:string, taskDescription:string, taskPriority:string, taskStatus:string, taskCreatedDate:string, taskDeadline:string,assignee:string;
+  taskId:number, taskTitle:string, taskDescription:string, taskPriority:string, taskStatus:string, taskCreatedDate:string, taskDeadline:string,assignee:string;
   }
   
 const { state, config } = createState(withProps<Task[]>([]));
