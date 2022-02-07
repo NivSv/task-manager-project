@@ -1,10 +1,10 @@
 <nav class="myNav">
     <div class="container">
         <h1>Task Manager</h1>
-        <div [ngClass]="{'is-active': hamActive}" class="menu" >
-            <a href="#123" class="is-active">Home</a>
-            <a href='#home'>Login</a>
-            <a href="#123">Sign up</a>
+        <div class="menu"[ngClass]="{'is-active': hamActive}">
+            <a routerLink="/home" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(1)}" id="1">Home</a>
+            <a routerLink="/login" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(2)}" id="2">Login</a>
+            <a routerLink="/sign-up" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(3)}" id="3">Sign up</a>
         </div>
         <button (click)="hamClick()"  [ngClass]="{'is-active': hamActive}" class="hamburger">
             <span></span>

@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   hamActive:boolean;
+  navActive:number;
 
   constructor() { 
     this.hamActive=false;
+    this.navActive=0;
   }
 
   ngOnInit(): void {
@@ -18,5 +20,18 @@ export class NavbarComponent implements OnInit {
   hamClick()
   {
     this.hamActive = !this.hamActive;
+  }
+
+  checkValue(value:number)
+  {
+    return this.navActive == value;
+  }
+
+  navClick(event:any)
+  {
+    var target = event.target || event.srcElement || event.currentTarget;
+    var idAttr = target.attributes.id;
+    var value = idAttr.nodeValue;
+    this.navActive = value;
   }
 }

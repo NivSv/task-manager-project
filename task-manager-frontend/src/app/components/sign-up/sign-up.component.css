@@ -1,0 +1,19 @@
+.sign-up{
+    padding-top: 120px; 
+    display:flex;
+    justify-content: center;
+}
+
+.card-title{
+    display:flex;
+    font-family: 'Fira sans', sans-serif;
+    justify-content: center;
+    padding-bottom: 20px;
+    text-transform: uppercase;
+    font-size: xx-large;
+}
+
+.sumbitButton{
+    display:flex;
+    justify-content: center;
+}
