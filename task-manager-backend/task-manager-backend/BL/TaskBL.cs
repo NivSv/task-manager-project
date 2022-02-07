@@ -17,7 +17,7 @@ namespace TaskManagerBackend.BL
             _priorityDAL = priorityDAL;
             _userDAL = userDAL;
         }
-        public void Create(TaskInfo task)
+        public void Create(TaskCreationInfo task)
         {
             var priority = _priorityDAL.GetPriorities().Find(x => x.PriorityName.ToLower() == task.TaskPriority.ToLower());
             if (priority == null) throw new InvalidPriorityException("Priority " + task.TaskPriority + " is not exist.");
@@ -43,7 +43,7 @@ namespace TaskManagerBackend.BL
             _taskDAL.Delete(taskID);
         }
 
-        public void Edit(TaskInfo task,int taskID)
+        public void Edit(TaskCreationInfo task,int taskID)
         {
             var priority = _priorityDAL.GetPriorities().Find(x => x.PriorityName.ToLower() == task.TaskPriority.ToLower());
             if (priority == null) throw new InvalidPriorityException("Priority " + task.TaskPriority + " is not exist.");
@@ -65,9 +65,22 @@ namespace TaskManagerBackend.BL
             _taskDAL.Edit(newtask);
         }
 
-        public List<Models.Task> GetAllTasks()
+        public List<Models.TaskInfo> GetAllTasks()
         {
-            return _taskDAL.GetAllTasks();
+            var priorities = _priorityDAL.GetPriorities();
+            var statuses = _statusDAL.GetStatuses();
+            var newTasks = _taskDAL.GetAllTasks().Select(x => new TaskInfo
+            {
+                TaskId = x.TaskId,
+                TaskTitle = x.TaskTitle,
+                TaskDescription = x.TaskDescription,
+                TaskPriority = priorities.Find(priority => x.TaskPriority == priority.PriorityID).PriorityName,
+                TaskCreatedDate =x.TaskCreatedDate,
+                TaskDeadline = x.TaskDeadline,
+                Assignee = _userDAL.GetById(x.Assignee).Username,
+                TaskStatus = statuses.Find(status => x.TaskStatus == status.StatusId).StatusName,
+            }).ToList();
+            return newTasks;
         }
 
         public List<Models.Task> GetTaskByUserID(int userID)

@@ -2,14 +2,15 @@
 
 namespace TaskManagerBackend.Models
 {
-    public class TaskInfo
+    public class TaskCreationInfo
     {
-        public int TaskId { get; set; }
         public string? TaskTitle { get; set; }
         public string? TaskDescription { get; set; }
+        [DefaultValue("Low")]
         public string? TaskPriority { get; set; }
-        public DateTime TaskCreatedDate { get; set; }
+        [DefaultValue("2020-2-21")]
         public DateTime TaskDeadline { get; set; }
+        [DefaultValue("Pending")]
         public string? TaskStatus { get; set; }
         public string? Assignee { get; set; }
     }

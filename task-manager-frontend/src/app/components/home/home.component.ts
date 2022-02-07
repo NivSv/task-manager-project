@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import {User, usersStore} from 'src/app/store/users.store';
 import {Task, tasksStore} from 'src/app/store/tasks.store';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,11 @@ export class HomeComponent implements OnInit {
     usersStore.subscribe(x => this.setUsers(x.map((user:User) => user.username)));
 
     tasksStore.subscribe(x => this.setTasks(x));
+  }
+
+  toDate(date:string)
+  {
+    return moment(date).format("yyyy-MM-DD");
   }
 
   setUsers(usernames:string[]): void {

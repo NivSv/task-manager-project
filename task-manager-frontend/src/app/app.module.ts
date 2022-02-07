@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { LoginComponent } from './components/login/login.component';
+import { FilterBoxComponent } from './components/filter-box/filter-box.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LoginComponent } from './components/login/login.component';
     HomeComponent,
     SignUpComponent,
     LoginComponent,
+    FilterBoxComponent,
   ],
   imports: [
     BrowserModule,

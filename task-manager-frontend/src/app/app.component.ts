@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import * as apiUsers from 'src/api/api-users';
 import * as apiTasks from 'src/api/api-tasks';
 import * as usersActions from 'src/app/store/users.actions';
-import * as tsersActions from 'src/app/store/tasks.actions';
+import * as tasksActions from 'src/app/store/tasks.actions';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
 
   setTasks(data:any)
   {
-    tsersActions.setTasks(data);
+    tasksActions.setTasks(data);
   }
 
   error(error:any)

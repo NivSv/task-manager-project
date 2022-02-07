@@ -22,7 +22,7 @@ namespace TaskManagerBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<List<Models.Task>> GetTasks([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
+        public ActionResult<List<Models.TaskInfo>> GetTasks([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             return _taskBL.GetAllTasks();
@@ -129,7 +129,7 @@ namespace TaskManagerBackend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult CreateTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username,[FromBody] TaskInfo task)
+        public ActionResult CreateTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username,[FromBody] TaskCreationInfo task)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
@@ -157,7 +157,7 @@ namespace TaskManagerBackend.Controllers
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult EditTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username,[FromBody] TaskInfo task,int taskID)
+        public ActionResult EditTask([FromHeader, Required] string accessKey, [FromHeader, Required] string username,[FromBody] TaskCreationInfo task,int taskID)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
