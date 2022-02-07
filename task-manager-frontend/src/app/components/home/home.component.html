@@ -1,7 +1,7 @@
 <div class="home">
     <div class="buttonContainer">
         <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Task</button>
-        <app-filter-box></app-filter-box>
+        <app-filter-box (filterEmitter)="setFilter($event)"></app-filter-box>
     </div>
     <div class="table-responsive" id="no-more-tables">
         <table class="table table-striped table-bordered table-hover">

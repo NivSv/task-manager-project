@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Filter } from '../home/home.component';
 
 @Component({
   selector: 'app-filter-box',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./filter-box.component.css']
 })
 export class FilterBoxComponent implements OnInit {
-  filterID:number;
+  filterID:string;
+  inputValue:string;
+  @Output() filterEmitter=new EventEmitter<Filter>();
 
   constructor() { 
-    this.filterID=1;
+    this.filterID="taskTitle";
+    this.inputValue="";
   }
 
   ngOnInit(): void {
@@ -21,5 +25,12 @@ export class FilterBoxComponent implements OnInit {
     var idAttr = target.attributes.id;
     var value = idAttr.nodeValue;
     this.filterID=value;
+    this.filterEmitter.emit({key:this.filterID,data:this.inputValue});
+  }
+
+  inputChange(value:string)
+  {
+    this.inputValue =value;
+    this.filterEmitter.emit({key:this.filterID,data:this.inputValue});
   }
 }

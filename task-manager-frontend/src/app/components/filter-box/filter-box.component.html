@@ -4,27 +4,27 @@
             Filter by
         </button>
         <ul class="dropdown-menu" aria-labelledby="Sort by">
-        <li><a class="dropdown-item" href="#" id="1" (click)="dropDownClick($event)">Title</a></li>
-        <li><a class="dropdown-item" href="#" id="2" (click)="dropDownClick($event)">Description</a></li>
-        <li><a class="dropdown-item" href="#" id="3" (click)="dropDownClick($event)">Priority</a></li>
-        <li><a class="dropdown-item" href="#" id="4" (click)="dropDownClick($event)">Status</a></li>
-        <li><a class="dropdown-item" href="#" id="5" (click)="dropDownClick($event)">Creation Date</a></li>
-        <li><a class="dropdown-item" href="#" id="6" (click)="dropDownClick($event)">Deadline</a></li>
-        <li><a class="dropdown-item" href="#" id="7" (click)="dropDownClick($event)">Assignee User</a></li>
+        <li><a class="dropdown-item" href="#" id="taskTitle" (click)="dropDownClick($event)">Title</a></li>
+        <li><a class="dropdown-item" href="#" id="taskDescription" (click)="dropDownClick($event)">Description</a></li>
+        <li><a class="dropdown-item" href="#" id="taskPriority" (click)="dropDownClick($event)">Priority</a></li>
+        <li><a class="dropdown-item" href="#" id="taskStatus" (click)="dropDownClick($event)">Status</a></li>
+        <li><a class="dropdown-item" href="#" id="taskCreatedDate" (click)="dropDownClick($event)">Creation Date</a></li>
+        <li><a class="dropdown-item" href="#" id="taskDeadline" (click)="dropDownClick($event)">Deadline</a></li>
+        <li><a class="dropdown-item" href="#" id="assignee" (click)="dropDownClick($event)">Assignee User</a></li>
         </ul>
     </div>
     <div>
-        <input type="text" class="form-control" *ngIf="this.filterID!=3 && this.filterID!=4" id="filter" placeholder="Filter">
-        <select class="form-select" *ngIf="this.filterID==3">
-            <option value="1">Low</option>
-            <option value="2">Medium</option>
-            <option value="3">High</option>
+        <input type="text" class="form-control" (keyup)="inputChange($any($event.target).value)" *ngIf="this.filterID!=='taskPriority' && this.filterID!=='taskStatus'" placeholder="Filter">
+        <select (change)="inputChange($any($event.target).value)" class="form-select" *ngIf="this.filterID==='taskPriority'">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
         </select>
-        <select class="form-select" *ngIf="this.filterID==4">
-            <option value="1">Pending</option>
-            <option value="2">In Progress</option>
-            <option value="3">Done</option>
-            <option value="4">Caceled</option>
+        <select (change)="inputChange($any($event.target).value)" class="form-select" *ngIf="this.filterID==='taskStatus'">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+            <option value="Canceled">Canceled</option>
         </select>
     </div>
 </div>
