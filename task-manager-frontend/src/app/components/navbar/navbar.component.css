@@ -36,6 +36,14 @@ h1{
     text-transform: uppercase;
 }
 
+h2{
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--navbar-primary);
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin-left: 10px;
+}
+
 .hamburger{
     display:none;
     position: relative;

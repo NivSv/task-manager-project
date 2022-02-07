@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +10,18 @@ export class NavbarComponent implements OnInit {
   hamActive:boolean;
   navActive:number;
 
-  constructor() { 
+  constructor(public cookieService: CookieService) { 
     this.hamActive=false;
     this.navActive=0;
   }
 
   ngOnInit(): void {
+  }
+
+  Logout()
+  {
+    this.cookieService.set('Username', "");
+    this.cookieService.set('AccessKey', "");
   }
 
   hamClick()

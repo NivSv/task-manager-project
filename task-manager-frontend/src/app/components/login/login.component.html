@@ -11,7 +11,11 @@
                 <label for="floatingInput">password</label>
             </div>
             <div class="sumbitButton">
-                <button (onclick)="submit()" type="button" class="btn btn-success">submit</button>
+                <button (click)="submit()" type="button" class="btn btn-success">submit</button>
+            </div>
+            <div [ngClass]="{'is-active': errorActive}" [innerHTML]="errorMessage" class='alert alert-danger' role='alert' style='margin-top: 20px;'>
+            </div>
+            <div [ngClass]="{'is-active': successActive}" [innerHTML]="successMessage" class='alert alert-success' role='alert' style='margin-top: 20px;'>
             </div>
         </div>
       </div>  

@@ -1,5 +1,4 @@
 import { Component, OnInit} from '@angular/core';
-import { Observable } from 'rxjs';
 import * as apiUsers from 'src/api/api-users';
 
 @Component({
@@ -10,22 +9,34 @@ import * as apiUsers from 'src/api/api-users';
 export class SignUpComponent implements OnInit {
   errorMessage:string
   errorActive:boolean
+  successMessage:string
+  successActive:boolean
 
   constructor() {
     this.errorActive=false;
     this.errorMessage="";
+    this.successActive=false;
+    this.successMessage="";
   }
 
   ngOnInit(): void {
   }
 
-  error(error:any)
+  errorSet(error:any)
   {
     this.errorMessage=error.error;
     this.errorActive=true;
+    this.successActive=false;
+  }
+
+  success(username:string)
+  {
+    this.successMessage="Username "+username+" is now signed up.";
+    this.successActive=true;
+    this.errorActive=false;
   }
   
-  async submit()
+  submit()
   {
     var username:string = (<HTMLInputElement>document.getElementById("username")).value;
     var password:string = (<HTMLInputElement>document.getElementById("password")).value;
@@ -34,10 +45,14 @@ export class SignUpComponent implements OnInit {
     {
        this.errorMessage="Please make sure your passwords match.";
        this.errorActive=true;
+       this.successActive=false;
     }
     else
     {
-      await apiUsers.Register(username,password).catch(e => this.error(e));
+      apiUsers.Register(username,password).subscribe({
+        next: () => this.success(username),
+        error: (e) => this.errorSet(e),
+      })
     }
   }
 }

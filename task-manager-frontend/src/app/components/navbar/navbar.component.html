@@ -1,10 +1,12 @@
 <nav class="myNav">
     <div class="container">
         <h1>Task Manager</h1>
+        <h2 *ngIf="this.cookieService.get('Username') !== ''">{{ "Hello, "+this.cookieService.get('Username')}}</h2>
         <div class="menu"[ngClass]="{'is-active': hamActive}">
-            <a routerLink="/home" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(1)}" id="1">Home</a>
-            <a routerLink="/login" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(2)}" id="2">Login</a>
-            <a routerLink="/sign-up" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(3)}" id="3">Sign up</a>
+            <a *ngIf="this.cookieService.get('Username') !== ''" routerLink="/home" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(1)}" id="1">Home</a>
+            <a *ngIf="this.cookieService.get('Username') === ''" routerLink="/login" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(2)}" id="2">Login</a>
+            <a *ngIf="this.cookieService.get('Username') === ''" routerLink="/sign-up" (click)="navClick($event)" [ngClass]="{'is-active': checkValue(3)}" id="3">Sign up</a>
+            <a *ngIf="this.cookieService.get('Username') !== ''" routerLink="/login" (click)="Logout()">Logout</a>
         </div>
         <button (click)="hamClick()"  [ngClass]="{'is-active': hamActive}" class="hamburger">
             <span></span>
