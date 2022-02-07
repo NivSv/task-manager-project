@@ -10,6 +10,12 @@ export interface Filter
   data:string;
 }
 
+export interface DateRange
+{
+  startDate:string;
+  endDate:string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -46,6 +52,7 @@ export class HomeComponent implements OnInit {
   }
 
   setFilter(filter:Filter){
+    this.tasks = getTasks()
     this.filterBy=filter;
     if(this.filterBy.data)
     {
@@ -56,6 +63,14 @@ export class HomeComponent implements OnInit {
     {
       this.tasks = getTasks();
     }
+  }
+
+  DateFilter(date:DateRange){
+    this.tasks = getTasks()
+    var startDate = moment(date.startDate).format("yyyy-MM-DD");
+    var endDate = moment(date.endDate).format("yyyy-MM-DD");
+    this.tasks = getTasks().filter(task => startDate <= moment(task.taskCreatedDate).format("yyyy-MM-DD") && moment(task.taskCreatedDate).format("yyyy-MM-DD") <= endDate);
+    console.log(startDate>endDate);
   }
 
   ngOnInit(): void {

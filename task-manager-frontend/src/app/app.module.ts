@@ -9,11 +9,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { LoginComponent } from './components/login/login.component';
 import { FilterBoxComponent } from './components/filter-box/filter-box.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field"; 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,10 @@ import { FilterBoxComponent } from './components/filter-box/filter-box.component
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
     BsDatepickerModule.forRoot(),
     TypeaheadModule.forRoot(),
   ],

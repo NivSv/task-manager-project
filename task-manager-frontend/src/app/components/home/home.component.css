@@ -8,6 +8,7 @@
     justify-content: center;
     gap: 5px;
     margin-bottom: 20px;
+    max-height: 38px;
 }
 
 @media (max-width: 880px){

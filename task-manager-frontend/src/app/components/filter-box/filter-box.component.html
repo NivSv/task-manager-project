@@ -14,7 +14,7 @@
         </ul>
     </div>
     <div>
-        <input type="text" class="form-control" (keyup)="inputChange($any($event.target).value)" *ngIf="this.filterID!=='taskPriority' && this.filterID!=='taskStatus'" placeholder="Filter">
+        <input type="text" class="form-control" (keyup)="inputChange($any($event.target).value)" *ngIf="this.filterID!=='taskPriority' && this.filterID!=='taskStatus' && this.filterID!=='taskCreatedDate' && this.filterID!=='taskStatus' && this.filterID!=='taskDeadline'" placeholder="Filter">
         <select (change)="inputChange($any($event.target).value)" class="form-select" *ngIf="this.filterID==='taskPriority'">
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
@@ -26,5 +26,20 @@
             <option value="Done">Done</option>
             <option value="Canceled">Canceled</option>
         </select>
+        <mat-form-field mat-form-field appearance="fill" *ngIf="this.filterID==='taskCreatedDate'">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" #dateRangeStart>>
+              <input #dateRangeEnd (dateChange)="creationDateFilter(dateRangeStart, dateRangeEnd)" matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+         <mat-form-field appearance="fill" *ngIf="this.filterID==='taskDeadline'">
+            <mat-label>Choose deadline</mat-label>
+            <input #deadline (dateChange)="deadlineFilter(deadline)" matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
     </div>
 </div>

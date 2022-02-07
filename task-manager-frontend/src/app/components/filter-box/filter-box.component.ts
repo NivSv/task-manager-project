@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { Filter } from '../home/home.component';
+import * as moment from 'moment';
+import { Filter,DateRange } from '../home/home.component';
 
 @Component({
   selector: 'app-filter-box',
@@ -10,6 +11,7 @@ export class FilterBoxComponent implements OnInit {
   filterID:string;
   inputValue:string;
   @Output() filterEmitter=new EventEmitter<Filter>();
+  @Output() creationDateFilterEmitter=new EventEmitter<DateRange>();
 
   constructor() { 
     this.filterID="taskTitle";
@@ -32,5 +34,15 @@ export class FilterBoxComponent implements OnInit {
   {
     this.inputValue =value;
     this.filterEmitter.emit({key:this.filterID,data:this.inputValue});
+  }
+
+  creationDateFilter(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
+    this.creationDateFilterEmitter.emit({startDate:dateRangeStart.value,endDate:dateRangeEnd.value});
+  }
+
+  deadlineFilter(deadline: HTMLInputElement)
+  {
+    const dateNow = moment(Date.now()).format("yyyy-MM-DD");
+    this.creationDateFilterEmitter.emit({startDate:dateNow,endDate:deadline.value});
   }
 }
