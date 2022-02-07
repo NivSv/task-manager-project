@@ -3,19 +3,21 @@
         <div class="card-body">
             <h5 class="card-title">Sign Up Form</h5>
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="username" placeholder="username">
+                <input #username type="text" class="form-control" id="username" placeholder="username">
                 <label for="floatingInput">Username</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" placeholder="password">
+                <input #password type="password" class="form-control" id="password" placeholder="password">
                 <label for="floatingInput">password</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="confirm-password" placeholder="password">
+                <input #confirmPassword type="password" class="form-control" id="confirm-password" placeholder="password">
                 <label for="floatingInput">confirm password</label>
             </div>
             <div class="sumbitButton">
-                <button (onclick)="submit()" type="button" class="btn btn-success">submit</button>
+                <button (click)="submit()" type="button" class="btn btn-success">submit</button>
+            </div>
+            <div [ngClass]="{'is-active': errorActive}" [innerHTML]="errorMessage" class='alert alert-danger' role='alert' style='margin-top: 20px;'>
             </div>
         </div>
       </div>  

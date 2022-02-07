@@ -5,12 +5,12 @@ const http:HttpClient = new HttpClient(new HttpXhrBackend({ build: () => new XML
 
 export function Register(username:string, password:string){
     var body = '{"username": "'+username+'", "password": "'+password+'"}';
-    return http.post('https://localhost:7135/api/users/register',body,{responseType:"text"}).toPromise().catch(e => console.log(e));
+    return http.post('https://localhost:7135/api/users/register',body,{headers: {'Content-Type': 'application/json'}}).toPromise();
 }
 
 export function Login(username:string, password:string){
     var body = '{"username": "'+username+'", "password": "'+password+'"}';
-    return http.post('https://localhost:7135/api/users/login',body,{responseType:"text"}).toPromise().catch(e => console.log(e));
+    return http.post('https://localhost:7135/api/users/login',body,{headers: {'Content-Type': 'application/json'}}).toPromise().catch(e => console.log(e));
 }
 
 export async function GetUsers(username:string,accessKey:string){

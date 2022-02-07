@@ -40,7 +40,8 @@ export function GetTasksByID(username:string,accessKey:string,id:number){
 export function DeleteTask(username:string,accessKey:string,id:number){
     const headers= new HttpHeaders()
     .set('username', username)
-    .set('accessKey', accessKey);
+    .set('accessKey', accessKey)
+    .set('Content-Type', 'application/json');
     return http.delete('https://localhost:7135/api/tasks/'+id,{responseType:"text",'headers': headers}).toPromise().catch(e => console.log(e));
 }
 
@@ -48,7 +49,8 @@ export function CreateTask(username:string,accessKey:string,taskTitle:string,tas
     var body = '{"taskTitle": "'+taskTitle+'", "taskDescription": "'+taskDescription+'", "taskPriority": "'+taskPriority+'", "taskPriority": "'+taskDeadline+'", "taskDeadline": "'+taskStatus+'", "assignee": "'+assignee+'"}';
     const headers= new HttpHeaders()
     .set('username', username)
-    .set('accessKey', accessKey);
+    .set('accessKey', accessKey)
+    .set('Content-Type', 'application/json');
     return http.post('https://localhost:7135/api/tasks',body,{responseType:"text",'headers': headers}).toPromise().catch(e => console.log(e));
 }
 
@@ -56,6 +58,7 @@ export function EditTask(username:string,accessKey:string,taskID:number,taskTitl
     var body = '{"taskTitle": "'+taskTitle+'", "taskDescription": "'+taskDescription+'", "taskPriority": "'+taskPriority+'", "taskPriority": "'+taskDeadline+'", "taskDeadline": "'+taskStatus+'", "assignee": "'+assignee+'"}';
     const headers= new HttpHeaders()
     .set('username', username)
-    .set('accessKey', accessKey);
+    .set('accessKey', accessKey)
+    .set('Content-Type', 'application/json');
     return http.put('https://localhost:7135/api/tasks/'+taskID,body,{responseType:"text",'headers': headers}).toPromise().catch(e => console.log(e));
 }
