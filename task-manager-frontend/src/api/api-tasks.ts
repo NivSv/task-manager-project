@@ -6,7 +6,7 @@ export function GetTasks(username:string,accessKey:string){
     const headers= new HttpHeaders()
     .set('username', username)
     .set('accessKey', accessKey);
-    return http.get('https://localhost:7135/api/tasks', {responseType:"text",'headers': headers}).toPromise().catch(e => console.log(e));
+    return http.get('https://localhost:7135/api/tasks', {responseType:"json",'headers': headers});
 }
 
 export function GetTasksByDeadline(username:string,accessKey:string,date:string){

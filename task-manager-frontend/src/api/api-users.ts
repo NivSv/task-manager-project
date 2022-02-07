@@ -13,16 +13,18 @@ export function Login(username:string, password:string){
     return http.post('https://localhost:7135/api/users/login',body,{responseType:"text",headers: {'Content-Type': 'application/json' }});
 }
 
-export async function GetUsers(username:string,accessKey:string){
+export function GetUsers(username:string,accessKey:string){
     const headers= new HttpHeaders()
     .set('username', username)
-    .set('accessKey', accessKey);
-    return http.get('https://localhost:7135/api/users', {responseType:"text",'headers': headers}).toPromise().catch(e => console.log(e));
+    .set('accessKey', accessKey)
+    .set('Content-Type', 'application/json');
+    return http.get('https://localhost:7135/api/users', {responseType:"json",'headers': headers});
 }
 
 export function GetUser(username:string,accessKey:string){
     const headers= new HttpHeaders()
     .set('username', username)
-    .set('accessKey', accessKey);
-    return http.get('https://localhost:7135/api/users/'+username, {responseType:"text",'headers': headers}).toPromise().catch(e => console.log(e));
+    .set('accessKey', accessKey)
+    .set('Content-Type', 'application/json');
+    return http.get('https://localhost:7135/api/users/'+username, {responseType:"json",'headers': headers});
 }

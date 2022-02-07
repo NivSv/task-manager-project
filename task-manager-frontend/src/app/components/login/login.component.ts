@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
   {
     this.cookieService.set('AccessKey', accessKey);
     this.cookieService.set('Username', username);
-    this.router.navigate(['home']);
+    this.router.navigate(['']);
   }
 
   submit()

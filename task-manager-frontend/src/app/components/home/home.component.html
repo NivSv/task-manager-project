@@ -6,8 +6,10 @@
                 Sort by
             </button>
             <ul class="dropdown-menu" aria-labelledby="Sort by">
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" href="#">All Tasks</a></li>
+              <li><a class="dropdown-item" href="#">Open Tasks</a></li>
+              <li><a class="dropdown-item" href="#">Tasks by deadline</a></li>
+              <li><a class="dropdown-item" href="#">Clsoe Tasks</a></li>
             </ul>
           </div>
     </div>
@@ -26,14 +28,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td data-title="Task Title">1</td>
-                <td data-title="Task Description">Otto</td>
-                <td data-title="Task Priority">@mdo</td>
-                <td data-title="Task Status">@mdo</td>
-                <td data-title="Created Date">@mdo</td>
-                <td data-title="Deadline">@mdo</td>
-                <td data-title="Assignee User">@mdo</td>
+            <tr *ngFor="let task of tasks">
+                <td data-title="Task Title">{{task.taskTitle}}</td>
+                <td data-title="Task Description">{{task.taskDescription}}</td>
+                <td data-title="Task Priority">{{task.taskPriority}}</td>
+                <td data-title="Task Status">{{task.taskStatus}}</td>
+                <td data-title="Created Date">{{task.taskCreatedDate}}</td>
+                <td data-title="Deadline">{{task.taskDeadline}}</td>
+                <td data-title="Assignee User">{{task.assignee}}</td>
                 <td data-title="">
                     <button type="button" class="btn btn-warning">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -83,7 +85,7 @@
                 <label for="floatingInput">Deadline</label>
             </div>
             <div class="form-floating mb-3">
-                <input [(ngModel)]="selected" [typeahead]="users" [isAnimated]="true" class="form-control">
+                <input [(ngModel)]="selected" [typeahead]="usernames" [isAnimated]="true" class="form-control">
                 <label for="floatingInput">Assignee User</label>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {User, usersStore} from 'src/app/store/users.store';
+import {Task, tasksStore} from 'src/app/store/tasks.store';
 
 @Component({
   selector: 'app-home',
@@ -8,15 +9,26 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class HomeComponent implements OnInit {
-  list= [];
   selected?: string;
-  users: string[] = [
-    'Alabama',
-    'Wisconsin',
-    'Wyoming'
-  ];
+  usernames: string[];
+  tasks: Task[];
 
-  constructor(private http: HttpClient) { }
+  constructor() { 
+    this.usernames = [];
+    this.tasks=[];
+    usersStore.subscribe(x => this.setUsers(x.map((user:User) => user.username)));
+
+    tasksStore.subscribe(x => this.setTasks(x));
+  }
+
+  setUsers(usernames:string[]): void {
+    this.usernames = usernames;
+  }
+
+  setTasks(tasks:Task[]): void {
+    this.tasks = tasks;
+    console.log(tasks)
+  }
 
   ngOnInit(): void {
   }
