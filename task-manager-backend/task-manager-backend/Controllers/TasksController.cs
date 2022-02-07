@@ -33,7 +33,7 @@ namespace TaskManagerBackend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<List<Models.Task>> GetTasksByDeadline([FromHeader, Required] string accessKey, [FromHeader, Required] string username, string date)
+        public ActionResult<List<TaskInfo>> GetTasksByDeadline([FromHeader, Required] string accessKey, [FromHeader, Required] string username, string date)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
@@ -76,7 +76,7 @@ namespace TaskManagerBackend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<List<Models.Task>> GetTasksByStatus([FromHeader, Required] string accessKey, [FromHeader, Required] string username,string status)
+        public ActionResult<List<TaskInfo>> GetTasksByStatus([FromHeader, Required] string accessKey, [FromHeader, Required] string username,string status)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try
@@ -112,7 +112,7 @@ namespace TaskManagerBackend.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<List<Models.Task>> GetTasksByPriorty([FromHeader, Required] string accessKey, [FromHeader, Required] string username,string priority)
+        public ActionResult<List<TaskInfo>> GetTasksByPriorty([FromHeader, Required] string accessKey, [FromHeader, Required] string username,string priority)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             try

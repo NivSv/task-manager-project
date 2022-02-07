@@ -7,11 +7,11 @@ namespace TaskManagerBackend.BL
         void Create(TaskCreationInfo task);
         void Delete(int taskID);
         void Edit(TaskCreationInfo task, int taskID);
-        List<Models.Task> GetTasksByDeadline(string date);
-        List<Models.Task> GetTasksByStatus(string statusName);
-        List<Models.Task> GetTasksByPriority(string priorityName);
+        List<TaskInfo> GetTasksByDeadline(string date);
+        List<TaskInfo> GetTasksByStatus(string statusName);
+        List<TaskInfo> GetTasksByPriority(string priorityName);
         List<TaskInfo> GetAllTasks();
-        List<Models.Task> GetTaskByUserID(int userID);
+        List<TaskInfo> GetTaskByUserID(int userID);
         Models.Task GetTaskByID(int taskID);
     }
 }

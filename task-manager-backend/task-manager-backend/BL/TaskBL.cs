@@ -83,31 +83,83 @@ namespace TaskManagerBackend.BL
             return newTasks;
         }
 
-        public List<Models.Task> GetTaskByUserID(int userID)
+        public List<Models.TaskInfo> GetTaskByUserID(int userID)
         {
-            return _taskDAL.GetTaskByUserID(userID);
+            var priorities = _priorityDAL.GetPriorities();
+            var statuses = _statusDAL.GetStatuses();
+            var newTasks = _taskDAL.GetTaskByUserID(userID).Select(x => new TaskInfo
+            {
+                TaskId = x.TaskId,
+                TaskTitle = x.TaskTitle,
+                TaskDescription = x.TaskDescription,
+                TaskPriority = priorities.Find(priority => x.TaskPriority == priority.PriorityID).PriorityName,
+                TaskCreatedDate = x.TaskCreatedDate,
+                TaskDeadline = x.TaskDeadline,
+                Assignee = _userDAL.GetById(x.Assignee).Username,
+                TaskStatus = statuses.Find(status => x.TaskStatus == status.StatusId).StatusName,
+            }).ToList();
+            return newTasks;
         }
 
-        public List<Models.Task> GetTasksByPriority(string priorityName)
+        public List<Models.TaskInfo> GetTasksByPriority(string priorityName)
         {
             var entity = _priorityDAL.GetPriorities().Find(status => status.PriorityName.ToLower() == priorityName.ToLower());
             if (entity == null) throw new InvalidPriorityException("Priority " + priorityName + " is not exist.");
-            return _taskDAL.GetTasksByPriority(entity.PriorityID);
+            var priorities = _priorityDAL.GetPriorities();
+            var statuses = _statusDAL.GetStatuses();
+            var newTasks = _taskDAL.GetTasksByPriority(entity.PriorityID).Select(x => new TaskInfo
+            {
+                TaskId = x.TaskId,
+                TaskTitle = x.TaskTitle,
+                TaskDescription = x.TaskDescription,
+                TaskPriority = priorities.Find(priority => x.TaskPriority == priority.PriorityID).PriorityName,
+                TaskCreatedDate = x.TaskCreatedDate,
+                TaskDeadline = x.TaskDeadline,
+                Assignee = _userDAL.GetById(x.Assignee).Username,
+                TaskStatus = statuses.Find(status => x.TaskStatus == status.StatusId).StatusName,
+            }).ToList();
+            return newTasks;
         }
 
-        public List<Models.Task> GetTasksByStatus(string statusName)
+        public List<Models.TaskInfo> GetTasksByStatus(string statusName)
         {
             var entity = _statusDAL.GetStatuses().Find(status => status.StatusName.ToLower() == statusName.ToLower());
             if (entity == null) throw new InvalidStatusException("Status "+statusName+" is not exist.");
-            return _taskDAL.GetTasksByStatus(entity.StatusId);
+            var priorities = _priorityDAL.GetPriorities();
+            var statuses = _statusDAL.GetStatuses();
+            var newTasks = _taskDAL.GetTasksByStatus(entity.StatusId).Select(x => new TaskInfo
+            {
+                TaskId = x.TaskId,
+                TaskTitle = x.TaskTitle,
+                TaskDescription = x.TaskDescription,
+                TaskPriority = priorities.Find(priority => x.TaskPriority == priority.PriorityID).PriorityName,
+                TaskCreatedDate = x.TaskCreatedDate,
+                TaskDeadline = x.TaskDeadline,
+                Assignee = _userDAL.GetById(x.Assignee).Username,
+                TaskStatus = statuses.Find(status => x.TaskStatus == status.StatusId).StatusName,
+            }).ToList();
+            return newTasks;
         }
 
-        public List<Models.Task> GetTasksByDeadline(string date)
+        public List<Models.TaskInfo> GetTasksByDeadline(string date)
         {
             DateTime myDate;
             if (!DateTime.TryParse(date, out myDate)) throw new InvalidDateException("the date is invalid");
             myDate = DateTime.Parse(date);
-            return _taskDAL.GetTasksByDeadline(myDate);
+            var priorities = _priorityDAL.GetPriorities();
+            var statuses = _statusDAL.GetStatuses();
+            var newTasks = _taskDAL.GetTasksByDeadline(myDate).Select(x => new TaskInfo
+            {
+                TaskId = x.TaskId,
+                TaskTitle = x.TaskTitle,
+                TaskDescription = x.TaskDescription,
+                TaskPriority = priorities.Find(priority => x.TaskPriority == priority.PriorityID).PriorityName,
+                TaskCreatedDate = x.TaskCreatedDate,
+                TaskDeadline = x.TaskDeadline,
+                Assignee = _userDAL.GetById(x.Assignee).Username,
+                TaskStatus = statuses.Find(status => x.TaskStatus == status.StatusId).StatusName,
+            }).ToList();
+            return newTasks;
         }
 
         public Models.Task GetTaskByID(int taskID)
