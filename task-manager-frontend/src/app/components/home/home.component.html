@@ -1,7 +1,8 @@
 <div class="home">
     <div class="buttonContainer">
         <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Task</button>
-        <app-filter-box (filterEmitter)="setFilter($event)"  (creationDateFilterEmitter)="DateFilter($event)"></app-filter-box>
+        <app-filter-box (filterEmitter)="setFilter($event)"  (creationDateFilterEmitter)="dateCreationFilter($event)" (deadlineDateFilterEmitter)="dateDeadlineFilter($event)">
+        </app-filter-box>
     </div>
     <div class="table-responsive" id="no-more-tables">
         <table class="table table-striped table-bordered table-hover">
@@ -33,7 +34,7 @@
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                         </svg>
                     </button>
-                    <button (click)="DeleteTask(task.taskId)" type="button" class="btn btn-danger" style="margin-left: 5px;">
+                    <button (click)="deleteTask(task.taskId)" type="button" class="btn btn-danger" style="margin-left: 5px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M6 1.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v1H6v-1Zm5 0v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5ZM4.5 5.029a.5.5 0 1 1 .998-.06l.5 8.5a.5.5 0 0 1-.998.06l-.5-8.5Zm6.53-.528a.5.5 0 0 1 .47.528l-.5 8.5a.5.5 0 1 1-.998-.058l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                         </svg>
@@ -59,29 +60,29 @@
                 <label for="floatingInput">Title</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="height: 150px;"></textarea>
-                <label for="floatingInput">Disc</label>
+                <textarea class="form-control" id="addTaskDesc" rows="3" style="height: 150px;"></textarea>
+                <label for="floatingInput">Desc</label>
             </div>
             <div class="form-floating mb-3">
-                <select class="form-select">
-                    <option value="1">Low</option>
-                    <option value="2">Medium</option>
-                    <option value="3">High</option>
+                <select id="addTaskPriority" class="form-select">
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
                 </select>
                 <label for="floatingInput">Task Priority</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
+                <input id="addTaskDeadline" type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
                 <label for="floatingInput">Deadline</label>
             </div>
             <div class="form-floating mb-3">
-                <input [(ngModel)]="selected" [typeahead]="usernames" [isAnimated]="true" class="form-control">
+                <input id="addTaskAssignee" [(ngModel)]="selected" [typeahead]="usernames" [isAnimated]="true" class="form-control">
                 <label for="floatingInput">Assignee User</label>
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" (click)="createTask()" class="btn btn-success">Add Task</button>
         </div>
       </div>
     </div>

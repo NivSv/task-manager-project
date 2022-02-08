@@ -12,6 +12,7 @@ export class FilterBoxComponent implements OnInit {
   inputValue:string;
   @Output() filterEmitter=new EventEmitter<Filter>();
   @Output() creationDateFilterEmitter=new EventEmitter<DateRange>();
+  @Output() deadlineDateFilterEmitter=new EventEmitter<DateRange>();
 
   constructor() { 
     this.filterID="taskTitle";
@@ -42,7 +43,7 @@ export class FilterBoxComponent implements OnInit {
 
   deadlineFilter(deadline: HTMLInputElement)
   {
-    const dateNow = moment(Date.now()).format("yyyy-MM-DD");
-    this.creationDateFilterEmitter.emit({startDate:dateNow,endDate:deadline.value});
+    var dateToday:string = moment(Date.now()).format("MM-DD-yyyy");
+    this.deadlineDateFilterEmitter.emit({startDate:dateToday,endDate:deadline.value});
   }
 }

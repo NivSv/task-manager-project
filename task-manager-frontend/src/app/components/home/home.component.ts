@@ -68,15 +68,34 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  DateFilter(date:DateRange){
-    this.tasks = getTasks()
+  dateDeadlineFilter(date:DateRange){
+    this.tasks = getTasks();
+    var startDate = moment(date.startDate).format("yyyy-MM-DD");
+    var endDate = moment(date.endDate).format("yyyy-MM-DD");
+    this.tasks = getTasks().filter(task => startDate <= moment(task.taskDeadline).format("yyyy-MM-DD") && moment(task.taskDeadline).format("yyyy-MM-DD") <= endDate);
+  }
+
+  dateCreationFilter(date:DateRange){
+    this.tasks = getTasks();
     var startDate = moment(date.startDate).format("yyyy-MM-DD");
     var endDate = moment(date.endDate).format("yyyy-MM-DD");
     this.tasks = getTasks().filter(task => startDate <= moment(task.taskCreatedDate).format("yyyy-MM-DD") && moment(task.taskCreatedDate).format("yyyy-MM-DD") <= endDate);
-    console.log(startDate>endDate);
   }
 
-  DeleteTask(taskID:number){
+  createTask()
+  {
+    var taskTitle:string = (<HTMLInputElement>document.getElementById("addTaskTitle")).value;
+    var taskDesc:string = (<HTMLInputElement>document.getElementById("addTaskDesc")).value;
+    var taskPriority:string = (<HTMLSelectElement>document.getElementById("addTaskPriority")).value;
+    var taskDeadline:string = (<HTMLInputElement>document.getElementById("addTaskDeadline")).value;
+    var taskAssignee:string = (<HTMLInputElement>document.getElementById("addTaskAssignee")).value;
+    apiTasks.CreateTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),taskTitle,taskDesc,taskPriority,taskDeadline,taskAssignee).subscribe({
+      error: (e) => console.log(e),
+    })
+    window.location.reload();
+  }
+
+  deleteTask(taskID:number){
     apiTasks.DeleteTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),taskID).subscribe({
       error: (e) => console.log(e),
     })
@@ -84,6 +103,5 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 }

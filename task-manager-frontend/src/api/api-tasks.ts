@@ -45,8 +45,8 @@ export function DeleteTask(username:string,accessKey:string,id:number){
     return http.delete('https://localhost:7135/api/tasks/'+id,{responseType:"text",'headers': headers});
 }
 
-export function CreateTask(username:string,accessKey:string,taskTitle:string,taskDescription:string,taskPriority:string,taskDeadline:string,taskStatus:string,assignee:string){
-    var body = '{"taskTitle": "'+taskTitle+'", "taskDescription": "'+taskDescription+'", "taskPriority": "'+taskPriority+'", "taskPriority": "'+taskDeadline+'", "taskDeadline": "'+taskStatus+'", "assignee": "'+assignee+'"}';
+export function CreateTask(username:string,accessKey:string,taskTitle:string,taskDescription:string,taskPriority:string,taskDeadline:string,assignee:string){
+    var body = '{"taskTitle": "'+taskTitle+'", "taskDescription": "'+taskDescription+'", "taskPriority": "'+taskPriority+'", "taskDeadline": "'+taskDeadline+'", "taskStatus": "Pending", "assignee": "'+assignee+'"}';
     const headers= new HttpHeaders()
     .set('username', username)
     .set('accessKey', accessKey)
