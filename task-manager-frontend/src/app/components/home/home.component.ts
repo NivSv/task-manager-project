@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
     }
     var taskAssignee:string = (<HTMLInputElement>document.getElementById("addTaskAssignee")).value;
     if(!this.usernames.find(user => user === taskAssignee)) {
-      this.errorMessage="Uses Assignee is not exist!";
+      this.errorMessage="User "+taskAssignee+" is not exist!";
       return;
     }
     apiTasks.CreateTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),taskTitle,taskDesc,taskPriority,taskDeadline,taskAssignee).subscribe({
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
     }
     var taskAssignee:string = this.editTaskAssignee.nativeElement.value;
     if(!this.usernames.find(user => user === taskAssignee)) {
-      this.errorMessage="Uses Assignee is not exist!";
+      this.errorMessage="User "+taskAssignee+" is not exist!";
       return;
     }
     apiTasks.EditTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),this.editTaskID,taskTitle,taskDesc,taskPriority,taskDeadline,taskStatus,taskAssignee).subscribe({
