@@ -36,11 +36,14 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
-         <mat-form-field appearance="fill" *ngIf="this.filterID==='taskDeadline'">
-            <mat-label>Choose deadline</mat-label>
-            <input #deadline (dateChange)="deadlineFilter(deadline)" matInput [matDatepicker]="picker">
+        <mat-form-field mat-form-field appearance="fill" *ngIf="this.filterID==='taskDeadline'">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" #deadLineRangeStart>>
+              <input #deadLineRangeEnd (dateChange)="deadlineFilter(deadLineRangeStart, deadLineRangeEnd)" matEndDate placeholder="End date">
+            </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
     </div>
 </div>

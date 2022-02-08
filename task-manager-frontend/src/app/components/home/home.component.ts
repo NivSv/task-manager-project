@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     if(this.filterBy.data)
     {
       const filterKey = this.filterBy.key as keyof Task;
-      this.tasks = getTasks().filter(task => String(task[filterKey]).includes(this.filterBy.data));
+      this.tasks = getTasks().filter(task => String(task[filterKey]).toLowerCase().includes(this.filterBy.data.toLowerCase()));
     }
     else
     {
@@ -176,6 +176,10 @@ export class HomeComponent implements OnInit {
       error: (e) => console.log(e),
     })
     window.location.reload();
+  }
+
+  sortTasksByTaskID() {
+    return this.tasks.sort((a, b) => a.taskId < b.taskId ? 1 : -1);
   }
 
   ngOnInit(): void {

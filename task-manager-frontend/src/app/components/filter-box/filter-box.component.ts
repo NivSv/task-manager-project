@@ -42,10 +42,9 @@ export class FilterBoxComponent implements OnInit {
     this.creationDateFilterEmitter.emit({startDate:dateRangeStart.value,endDate:dateRangeEnd.value});
   }
 
-  deadlineFilter(deadline: HTMLInputElement)
+  deadlineFilter(dateRangeStart: HTMLInputElement,deadline: HTMLInputElement)
   {
-    var dateToday:string = moment(Date.now()).format("MM-DD-yyyy");
-    this.deadlineDateFilterEmitter.emit({startDate:dateToday,endDate:deadline.value});
+    this.deadlineDateFilterEmitter.emit({startDate:dateRangeStart.value,endDate:deadline.value});
   }
 
   resetFilter(){

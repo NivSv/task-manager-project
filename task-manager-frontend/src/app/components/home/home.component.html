@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let task of tasks">
+            <tr *ngFor="let task of sortTasksByTaskID()">
                 <td data-title="Task Title">{{task.taskTitle}}</td>
                 <td data-title="Task Description">{{task.taskDescription}}</td>
                 <td data-title="Task Priority">{{task.taskPriority}}</td>

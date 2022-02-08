@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
     this.errorMessage="";
     this.successActive=false;
     this.successMessage="";
+    if(this.cookieService.get('Username') !== ""){
+      this.router.navigate(['']);
+     }
   }
 
   ngOnInit(): void {

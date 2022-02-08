@@ -19,7 +19,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let user of usersStatistics">
+                <tr *ngFor="let user of sortUsersByTaskDone()">
                     <td>{{user.Username}}</td>
                     <td>{{user.tasksDone}}</td>
                 </tr>

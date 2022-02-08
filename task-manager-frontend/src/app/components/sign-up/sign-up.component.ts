@@ -1,4 +1,6 @@
 import { Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import * as apiUsers from 'src/api/api-users';
 
 @Component({
@@ -12,11 +14,14 @@ export class SignUpComponent implements OnInit {
   successMessage:string
   successActive:boolean
 
-  constructor() {
+  constructor(private cookieService: CookieService, public router: Router) {
     this.errorActive=false;
     this.errorMessage="";
     this.successActive=false;
     this.successMessage="";
+    if(this.cookieService.get('Username') !== ""){
+      this.router.navigate(['']);
+     }
   }
 
   ngOnInit(): void {

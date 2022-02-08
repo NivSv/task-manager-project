@@ -59,6 +59,10 @@ export class UserStatisticsComponent implements OnInit {
     window.location.reload();
   }
 
+  sortUsersByTaskDone() {
+    return this.usersStatistics.sort((a, b) => a.tasksDone < b.tasksDone ? 1 : a.tasksDone === b.tasksDone ? 0 : -1);
+  }
+
   ngOnInit(): void {
   }
 
