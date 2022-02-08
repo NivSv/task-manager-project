@@ -11,6 +11,14 @@
     max-height: 38px;
 }
 
+.alert.alert-danger{
+    display: none;
+}
+
+.alert.alert-danger.is-active{
+    display: block;
+}
+
 @media (max-width: 880px){
     #no-more-tables tbody, #no-more-tables tr, #no-more-tables td{
         display: block;

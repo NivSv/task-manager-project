@@ -29,12 +29,14 @@ export class HomeComponent implements OnInit {
   usernames: string[];
   tasks: Task[];
   filterBy:Filter;
+  errorMessage;
 
 
   constructor(private cookieService: CookieService, public router: Router) { 
     this.filterBy = {key:"taskTitle",data:""};
     this.usernames = [];
     this.tasks=[];
+    this.errorMessage="";
     usersStore.subscribe(x => this.setUsers(x.map((user:User) => user.username)));
 
     tasksStore.subscribe(x => this.setTasks(x));
@@ -85,10 +87,26 @@ export class HomeComponent implements OnInit {
   createTask()
   {
     var taskTitle:string = (<HTMLInputElement>document.getElementById("addTaskTitle")).value;
+    if(!taskTitle) {
+      this.errorMessage="Title is empty!";
+      return;
+    }
     var taskDesc:string = (<HTMLInputElement>document.getElementById("addTaskDesc")).value;
+    if(!taskDesc) {
+      this.errorMessage="Desc is empty!";
+      return;
+    }
     var taskPriority:string = (<HTMLSelectElement>document.getElementById("addTaskPriority")).value;
     var taskDeadline:string = (<HTMLInputElement>document.getElementById("addTaskDeadline")).value;
+    if(!taskDeadline || taskDeadline == "Invalid date") {
+      this.errorMessage="Deadline is empty!";
+      return;
+    }
     var taskAssignee:string = (<HTMLInputElement>document.getElementById("addTaskAssignee")).value;
+    if(!this.usernames.find(user => user === taskAssignee)) {
+      this.errorMessage="Uses Assignee is not exist!";
+      return;
+    }
     apiTasks.CreateTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),taskTitle,taskDesc,taskPriority,taskDeadline,taskAssignee).subscribe({
       error: (e) => console.log(e),
     })

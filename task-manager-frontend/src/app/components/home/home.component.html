@@ -79,11 +79,12 @@
                 <input id="addTaskAssignee" [(ngModel)]="selected" [typeahead]="usernames" [isAnimated]="true" class="form-control">
                 <label for="floatingInput">Assignee User</label>
             </div>
+            <div [ngClass]="{'is-active': errorMessage}" [innerHTML]="errorMessage" class='alert alert-danger' role='alert' style='margin-top: 20px;'>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" (click)="createTask()" class="btn btn-success">Add Task</button>
         </div>
-      </div>
     </div>
-  </div>
+</div>
