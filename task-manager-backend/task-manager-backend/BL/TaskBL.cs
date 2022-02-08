@@ -65,7 +65,7 @@ namespace TaskManagerBackend.BL
             _taskDAL.Edit(newtask);
         }
 
-        public List<Models.TaskInfo> GetAllTasks()
+        public List<TaskInfo> GetAllTasks()
         {
             var priorities = _priorityDAL.GetPriorities();
             var statuses = _statusDAL.GetStatuses();
@@ -83,7 +83,7 @@ namespace TaskManagerBackend.BL
             return newTasks;
         }
 
-        public List<Models.TaskInfo> GetTaskByUserID(int userID)
+        public List<TaskInfo> GetTaskByUserID(int userID)
         {
             var priorities = _priorityDAL.GetPriorities();
             var statuses = _statusDAL.GetStatuses();
@@ -101,7 +101,7 @@ namespace TaskManagerBackend.BL
             return newTasks;
         }
 
-        public List<Models.TaskInfo> GetTasksByPriority(string priorityName)
+        public List<TaskInfo> GetTasksByPriority(string priorityName)
         {
             var entity = _priorityDAL.GetPriorities().Find(status => status.PriorityName.ToLower() == priorityName.ToLower());
             if (entity == null) throw new InvalidPriorityException("Priority " + priorityName + " is not exist.");
@@ -121,7 +121,7 @@ namespace TaskManagerBackend.BL
             return newTasks;
         }
 
-        public List<Models.TaskInfo> GetTasksByStatus(string statusName)
+        public List<TaskInfo> GetTasksByStatus(string statusName)
         {
             var entity = _statusDAL.GetStatuses().Find(status => status.StatusName.ToLower() == statusName.ToLower());
             if (entity == null) throw new InvalidStatusException("Status "+statusName+" is not exist.");
@@ -141,7 +141,7 @@ namespace TaskManagerBackend.BL
             return newTasks;
         }
 
-        public List<Models.TaskInfo> GetTasksByDeadline(string date)
+        public List<TaskInfo> GetTasksByDeadline(string date)
         {
             DateTime myDate;
             if (!DateTime.TryParse(date, out myDate)) throw new InvalidDateException("the date is invalid");

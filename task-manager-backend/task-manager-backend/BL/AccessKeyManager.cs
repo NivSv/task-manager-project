@@ -49,7 +49,7 @@ namespace TaskManagerBackend.BL
             if (!_accessKeyDict.ContainsKey(userID)) return null;
             return _accessKeyDict[userID].AccessKey;
         }
-        public void CheckExpiry(Object source, System.Timers.ElapsedEventArgs e)
+        public void CheckExpiry(Object source, ElapsedEventArgs e)
         {
             while(_accessKeyQueue.Count != 0  &&  _accessKeyQueue.Peek().CreatedDate.AddMilliseconds(_accessKeyAge) <= DateTime.UtcNow)
             {

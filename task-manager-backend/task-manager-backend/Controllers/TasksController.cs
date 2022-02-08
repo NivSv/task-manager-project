@@ -22,7 +22,7 @@ namespace TaskManagerBackend.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public ActionResult<List<Models.TaskInfo>> GetTasks([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
+        public ActionResult<List<TaskInfo>> GetTasks([FromHeader, Required] string accessKey, [FromHeader, Required] string username)
         {
             if (!_userAuthorizer.isAuthorized(username, accessKey)) return StatusCode(401);
             return _taskBL.GetAllTasks();
