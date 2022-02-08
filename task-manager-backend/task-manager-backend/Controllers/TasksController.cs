@@ -46,12 +46,6 @@ namespace TaskManagerBackend.Controllers
             }
         }
 
-        /// <summary>
-        /// Deletes a specific TodoItem.
-        /// </summary>
-        ///<returns></returns>
-        ///<response code="200">If the task got deleted</response>
-        ///<response code="404">If the task is not exist.</response>
         [HttpDelete]
         [Route("{taskID}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
