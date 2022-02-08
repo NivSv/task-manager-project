@@ -2,7 +2,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* Technical Info
+* [Technical Info](#technical-info)
 
 ## General info
 This project is a simple Task Manager.
