@@ -4,17 +4,18 @@
             Filter by
         </button>
         <ul class="dropdown-menu" aria-labelledby="Sort by">
-        <li><a class="dropdown-item" href="#" id="taskTitle" (click)="dropDownClick($event)">Title</a></li>
-        <li><a class="dropdown-item" href="#" id="taskDescription" (click)="dropDownClick($event)">Description</a></li>
-        <li><a class="dropdown-item" href="#" id="taskPriority" (click)="dropDownClick($event)">Priority</a></li>
-        <li><a class="dropdown-item" href="#" id="taskStatus" (click)="dropDownClick($event)">Status</a></li>
-        <li><a class="dropdown-item" href="#" id="taskCreatedDate" (click)="dropDownClick($event)">Creation Date</a></li>
-        <li><a class="dropdown-item" href="#" id="taskDeadline" (click)="dropDownClick($event)">Deadline</a></li>
-        <li><a class="dropdown-item" href="#" id="assignee" (click)="dropDownClick($event)">Assignee User</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='taskTitle'}" href="#" id="taskTitle" (click)="dropDownClick($event)">Title</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='taskDescription'}" href="#" id="taskDescription" (click)="dropDownClick($event)">Description</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='taskPriority'}" href="#" id="taskPriority" (click)="dropDownClick($event)">Priority</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='taskStatus'}" href="#" id="taskStatus" (click)="dropDownClick($event)">Status</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='taskCreatedDate'}" href="#" id="taskCreatedDate" (click)="dropDownClick($event)">Creation Date</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='taskDeadline'}" href="#" id="taskDeadline" (click)="dropDownClick($event)">Deadline</a></li>
+        <li><a class="dropdown-item" [ngClass]="{'is-active': filterID=='assignee'}" href="#" id="assignee" (click)="dropDownClick($event)">Assignee User</a></li>
         </ul>
+        <button (click)="resetFilter()" style="margin-left: 2px;" type="button"  *ngIf="this.filterID!='taskTitle'" class="btn btn-dark">reset filter</button>
     </div>
     <div>
-        <input type="text" class="form-control" (keyup)="inputChange($any($event.target).value)" *ngIf="this.filterID!=='taskPriority' && this.filterID!=='taskStatus' && this.filterID!=='taskCreatedDate' && this.filterID!=='taskStatus' && this.filterID!=='taskDeadline'" placeholder="Filter">
+        <input #inputText type="text" class="form-control" (keyup)="inputChange($any($event.target).value)" *ngIf="this.filterID!=='taskPriority' && this.filterID!=='taskStatus' && this.filterID!=='taskCreatedDate' && this.filterID!=='taskStatus' && this.filterID!=='taskDeadline'" placeholder="Filter">
         <select (change)="inputChange($any($event.target).value)" class="form-select" *ngIf="this.filterID==='taskPriority'">
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import * as moment from 'moment';
 import { Filter,DateRange } from '../home/home.component';
 
@@ -8,6 +8,7 @@ import { Filter,DateRange } from '../home/home.component';
   styleUrls: ['./filter-box.component.css']
 })
 export class FilterBoxComponent implements OnInit {
+  @ViewChild("inputText") inputText!: ElementRef;
   filterID:string;
   inputValue:string;
   @Output() filterEmitter=new EventEmitter<Filter>();
@@ -45,5 +46,9 @@ export class FilterBoxComponent implements OnInit {
   {
     var dateToday:string = moment(Date.now()).format("MM-DD-yyyy");
     this.deadlineDateFilterEmitter.emit({startDate:dateToday,endDate:deadline.value});
+  }
+
+  resetFilter(){
+    window.location.reload();
   }
 }

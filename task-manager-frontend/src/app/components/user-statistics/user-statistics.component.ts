@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
+import { getTasks } from 'src/app/store/tasks.actions';
 import {Task, tasksStore} from 'src/app/store/tasks.store';
 
 export interface UserStatistics
@@ -43,6 +45,18 @@ export class UserStatisticsComponent implements OnInit {
     {
       this.usersStatistics.push({Username: username,tasksDone:1});
     }
+  }
+
+  dateFilter(dateRangeStart: HTMLInputElement, dateRangeEnd: HTMLInputElement) {
+    this.usersStatistics=[];
+    var dateStart:string = moment(dateRangeStart.value).format("yyyy-MM-DD");
+    var dateEnd:string = moment(dateRangeEnd.value).format("yyyy-MM-DD");
+    this.tasks = getTasks().filter(task => task.taskStatus == "Done" && dateStart<= moment(task.taskCreatedDate).format("yyyy-MM-DD") && moment(task.taskCreatedDate).format("yyyy-MM-DD")<=dateEnd);
+    this.tasks.map(task => this.addTaskToUser(task.assignee));
+  }
+
+  resetFilter(){
+    window.location.reload();
   }
 
   ngOnInit(): void {

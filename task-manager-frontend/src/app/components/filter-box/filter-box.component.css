@@ -2,3 +2,8 @@
     display:inline-flex;
     gap:10px;
 }
+
+.dropdown-item.is-active{
+    background-color: lightgreen;
+    border-radius: 99px;
+}
