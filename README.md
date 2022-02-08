@@ -2,6 +2,7 @@
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* Technical Info
 
 ## General info
 This project is a simple Task Manager.
@@ -23,3 +24,10 @@ SQL Credentials:
 Port: 1433
 Username (default): sa 
 Password: Admin123!
+
+## Technical Info
+Backend Dependencies:
+* EntityFrameworkCore 6
+* NetwonsoftJson
+
+The backend also exposes Swagger (In development mode)
