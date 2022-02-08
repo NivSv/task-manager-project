@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {User, usersStore} from 'src/app/store/users.store';
 import {Task, tasksStore} from 'src/app/store/tasks.store';
 import {getTasks} from 'src/app/store/tasks.actions';
@@ -25,6 +25,13 @@ export interface DateRange
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild("editTaskTitle") editTaskTitle!: ElementRef;
+  @ViewChild("editTaskDesc") editTaskDesc!: ElementRef;
+  @ViewChild("editTaskPriority") editTaskPriority!: ElementRef;
+  @ViewChild("editTaskStatus") editTaskStatus!: ElementRef;
+  @ViewChild("editTaskDeadline") editTaskDeadline!: ElementRef;
+  @ViewChild("editTaskAssignee") editTaskAssignee!: ElementRef;
+  editTaskID:number;
   selected?: string;
   usernames: string[];
   tasks: Task[];
@@ -34,6 +41,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private cookieService: CookieService, public router: Router) { 
     this.filterBy = {key:"taskTitle",data:""};
+    this.editTaskID=0;
     this.usernames = [];
     this.tasks=[];
     this.errorMessage="";
@@ -108,6 +116,48 @@ export class HomeComponent implements OnInit {
       return;
     }
     apiTasks.CreateTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),taskTitle,taskDesc,taskPriority,taskDeadline,taskAssignee).subscribe({
+      error: (e) => console.log(e),
+    })
+    window.location.reload();
+  }
+
+  prepareEditForm(targetedTaskID:number)
+  {
+    this.editTaskID = targetedTaskID;
+    var foundTask =this.tasks.find(task => task.taskId === this.editTaskID)
+    this.editTaskTitle.nativeElement.value = foundTask?.taskTitle;
+    this.editTaskDesc.nativeElement.value = foundTask?.taskDescription;
+    this.editTaskPriority.nativeElement.value = foundTask?.taskPriority;
+    this.editTaskStatus.nativeElement.value = foundTask?.taskStatus;
+    this.editTaskDeadline.nativeElement.value = moment(foundTask?.taskDeadline).format("MM/DD/yyyy");
+    this.editTaskAssignee.nativeElement.value = foundTask?.assignee;
+  }
+
+  editTask()
+  {
+    var taskTitle:string = this.editTaskTitle.nativeElement.value;
+    if(!taskTitle) {
+      this.errorMessage="Title is empty!";
+      return;
+    }
+    var taskDesc:string = this.editTaskDesc.nativeElement.value;
+    if(!taskDesc) {
+      this.errorMessage="Desc is empty!";
+      return;
+    }
+    var taskPriority:string =  this.editTaskPriority.nativeElement.value;
+    var taskStatus:string =  this.editTaskStatus.nativeElement.value;
+    var taskDeadline:string = this.editTaskDeadline.nativeElement.value;
+    if(!taskDeadline || taskDeadline == "Invalid date") {
+      this.errorMessage="Deadline is empty!";
+      return;
+    }
+    var taskAssignee:string = this.editTaskAssignee.nativeElement.value;
+    if(!this.usernames.find(user => user === taskAssignee)) {
+      this.errorMessage="Uses Assignee is not exist!";
+      return;
+    }
+    apiTasks.EditTask(this.cookieService.get('Username'),this.cookieService.get('AccessKey'),this.editTaskID,taskTitle,taskDesc,taskPriority,taskDeadline,taskStatus,taskAssignee).subscribe({
       error: (e) => console.log(e),
     })
     window.location.reload();

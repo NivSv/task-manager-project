@@ -1,6 +1,6 @@
 <div class="home">
     <div class="buttonContainer">
-        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Task</button>
+        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#creatingTaskModal">Add Task</button>
         <app-filter-box (filterEmitter)="setFilter($event)"  (creationDateFilterEmitter)="dateCreationFilter($event)" (deadlineDateFilterEmitter)="dateDeadlineFilter($event)">
         </app-filter-box>
     </div>
@@ -28,7 +28,7 @@
                 <td data-title="Deadline">{{toDate(task.taskDeadline)}}</td>
                 <td data-title="Assignee User">{{task.assignee}}</td>
                 <td data-title="">
-                    <button type="button" class="btn btn-warning">
+                    <button (click)="prepareEditForm(task.taskId)" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editingTaskModal">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -46,12 +46,12 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Creating task Modal -->
+<div class="modal fade" id="creatingTaskModal" tabindex="-1" aria-labelledby="creatingTaskModal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Adding a task</h5>
+          <h5 class="modal-title" id="creatingTaskModal">Adding a task</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -85,6 +85,59 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" (click)="createTask()" class="btn btn-success">Add Task</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Editing Modal -->
+<div class="modal fade" id="editingTaskModal" tabindex="-1" aria-labelledby="editingTaskModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editingTaskModal">Adding a task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-floating mb-3">
+                <input #editTaskTitle type="email" class="form-control" placeholder="Title">
+                <label for="floatingInput">Title</label>
+            </div>
+            <div class="form-floating mb-3">
+                <textarea #editTaskDesc class="form-control" rows="3" style="height: 150px;"></textarea>
+                <label for="floatingInput">Desc</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select #editTaskPriority class="form-select">
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+                <label for="floatingInput">Task Priority</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select #editTaskStatus class="form-select">
+                    <option>Pending</option>
+                    <option>In Progress</option>
+                    <option>Done</option>
+                    <option>Canceled</option>
+                </select>
+                <label for="floatingInput">Task Status</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input #editTaskDeadline type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
+                <label for="floatingInput">Deadline</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input #editTaskAssignee [(ngModel)]="selected" [typeahead]="usernames" [isAnimated]="true" class="form-control">
+                <label for="floatingInput">Assignee User</label>
+            </div>
+            <div [ngClass]="{'is-active': errorMessage}" [innerHTML]="errorMessage" class='alert alert-danger' role='alert' style='margin-top: 20px;'>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" (click)="editTask()" class="btn btn-warning">Edit Task</button>
         </div>
     </div>
 </div>

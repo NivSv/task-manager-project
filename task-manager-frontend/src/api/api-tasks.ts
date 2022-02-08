@@ -55,7 +55,7 @@ export function CreateTask(username:string,accessKey:string,taskTitle:string,tas
 }
 
 export function EditTask(username:string,accessKey:string,taskID:number,taskTitle:string,taskDescription:string,taskPriority:string,taskDeadline:string,taskStatus:string,assignee:string){
-    var body = '{"taskTitle": "'+taskTitle+'", "taskDescription": "'+taskDescription+'", "taskPriority": "'+taskPriority+'", "taskPriority": "'+taskDeadline+'", "taskDeadline": "'+taskStatus+'", "assignee": "'+assignee+'"}';
+    var body = '{"taskTitle": "'+taskTitle+'", "taskDescription": "'+taskDescription+'", "taskPriority": "'+taskPriority+'", "taskDeadline": "'+taskDeadline+'", "taskStatus": "'+taskStatus+'", "assignee": "'+assignee+'"}';
     const headers= new HttpHeaders()
     .set('username', username)
     .set('accessKey', accessKey)
