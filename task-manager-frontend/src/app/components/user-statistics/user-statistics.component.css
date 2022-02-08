@@ -1,0 +1,13 @@
+.userStatistics{
+    padding-top: 120px; 
+    display:flex;
+    justify-content: center;
+
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 250px;
+}

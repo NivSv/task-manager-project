@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field"; 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { UserStatisticsComponent } from './components/user-statistics/user-statistics.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     SignUpComponent,
     LoginComponent,
     FilterBoxComponent,
+    UserStatisticsComponent,
   ],
   imports: [
     BrowserModule,

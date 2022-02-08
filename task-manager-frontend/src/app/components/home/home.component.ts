@@ -110,6 +110,10 @@ export class HomeComponent implements OnInit {
       this.errorMessage="Deadline is empty!";
       return;
     }
+    if(moment(taskDeadline).format("yyyy-MM-DD") < moment(Date.now()).format("yyyy-MM-DD")) {
+      this.errorMessage="Deadline cannot be earlier than today!";
+      return;
+    }
     var taskAssignee:string = (<HTMLInputElement>document.getElementById("addTaskAssignee")).value;
     if(!this.usernames.find(user => user === taskAssignee)) {
       this.errorMessage="Uses Assignee is not exist!";
@@ -150,6 +154,10 @@ export class HomeComponent implements OnInit {
     var taskDeadline:string = this.editTaskDeadline.nativeElement.value;
     if(!taskDeadline || taskDeadline == "Invalid date") {
       this.errorMessage="Deadline is empty!";
+      return;
+    }
+    if(moment(taskDeadline).format("yyyy-MM-DD") < moment(Date.now()).format("yyyy-MM-DD")) {
+      this.errorMessage="Deadline cannot be earlier than today!";
       return;
     }
     var taskAssignee:string = this.editTaskAssignee.nativeElement.value;
